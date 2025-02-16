@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "pmmo_classes:item/skill_book_blue_emerald"
+  }
+}

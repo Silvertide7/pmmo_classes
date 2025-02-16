@@ -1,0 +1,20 @@
+{
+  "item.pmmo_classes.skill_book": "Skill Book",
+  "item.pmmo_classes.gold_skill_book": "Golden Skill Book",
+  "item.pmmo_classes.emerald_skill_book": "Emerald Skill Book",
+  "item.pmmo_classes.diamond_skill_book": "Diamond Skill Book",
+  "creative_tab.pmmo_classes.classes": "PMMO Skill Books",
+
+  "pmmo_classes.message.no_skill_specified": "Skill book has no skill specified.",
+  "pmmo_classes.message.value_zero_or_less": "Skill value must be greater than 0.",
+  "pmmo_classes.message.no_application_type": "Skill book has no application type [level, xp].",
+  "pmmo_classes.message.wrong_application_type": "Application type must be level or xp.",
+  "pmmo_classes.message.no_data_found": "No skill book data found.",
+  "pmmo_classes.message.max_level": "Skill is at max level.",
+  "pmmo_classes.message.use_book_error": "Something went wrong.",
+
+  "pmmo_classes.message.level_effect": "+%1$s %2$s Level",
+  "pmmo_classes.message.levels_effect": "+%1$s %2$s Levels",
+  "pmmo_classes.message.experience_effect": "+%1$s %2$s Experience",
+  "pmmo_classes.message.wrong_effect": "Invalid application type, must be level or xp."
+}
