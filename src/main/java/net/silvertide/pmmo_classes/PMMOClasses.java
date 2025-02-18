@@ -23,17 +23,9 @@ public class PMMOClasses
 
     public PMMOClasses(IEventBus modEventBus, ModContainer modContainer)
     {
-        DataComponentRegistry.register(modEventBus);
-        ItemRegistry.register(modEventBus);
-        TabRegistry.register(modEventBus);
-    }
-
-    @EventBusSubscriber(modid = MOD_ID, bus= EventBusSubscriber.Bus.MOD, value=Dist.CLIENT)
-    public static class ClientEvents {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent clientSetupEvent) {
-            ItemPropertyRegistry.addCustomItemProperties();
-        }
+//        DataComponentRegistry.register(modEventBus);
+//        ItemRegistry.register(modEventBus);
+//        TabRegistry.register(modEventBus);
     }
 
     public static ResourceLocation id(String location) {
