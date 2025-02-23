@@ -50,4 +50,9 @@ public enum SubClassSkill implements IClassSkill {
     public PrimaryClassSkill getParentClass() {
         return parentClass;
     }
+
+    @Override
+    public ClassType getClassType() {
+        return ClassType.SUB;
+    }
 }

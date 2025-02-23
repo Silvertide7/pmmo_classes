@@ -1,3 +1,5 @@
 package net.silvertide.pmmo_classes.data;
 
-public interface IClassSkill {}
+public interface IClassSkill {
+    ClassType getClassType();
+}

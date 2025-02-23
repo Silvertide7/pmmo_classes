@@ -95,7 +95,6 @@ public enum AscendedClassSkill implements IClassSkill {
 
     OCCULT_ARCANIST(PrimaryClassSkill.WARLOCK, PrimaryClassSkill.WIZARD); // TODO: RENAME
 
-
     private final PrimaryClassSkill firstPrimaryClass;
     private final PrimaryClassSkill secondPrimaryClass;
 
@@ -116,5 +115,10 @@ public enum AscendedClassSkill implements IClassSkill {
                 .filter(ascendedClassSkill -> ascendedClassSkill.getFirstPrimaryClass().equals(firstPrimaryClass) && ascendedClassSkill.getSecondPrimaryClass().equals(secondPrimaryClass)
                         || ascendedClassSkill.getFirstPrimaryClass().equals(secondPrimaryClass) && ascendedClassSkill.getSecondPrimaryClass().equals(firstPrimaryClass))
                 .findFirst();
+    }
+
+    @Override
+    public ClassType getClassType() {
+        return ClassType.ASCENDED;
     }
 }
