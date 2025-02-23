@@ -32,5 +32,4 @@ public final class ClassUtil {
             return Optional.empty();
         }
     }
-
 }

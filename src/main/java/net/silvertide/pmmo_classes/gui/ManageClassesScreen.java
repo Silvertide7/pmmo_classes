@@ -22,7 +22,7 @@ import java.util.Map;
 public class ManageClassesScreen extends Screen {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(PMMOClasses.MOD_ID, "textures/gui/gui_manage_classes_screen.png");
     private static final int SCREEN_WIDTH = 146;
-    private static final int MAX_SCREEN_HEIGHT = 71;
+    private static final int MAX_SCREEN_HEIGHT = 101;
 
     private static final int CARD_HEIGHT = 25;
     private static final int CARD_WIDTH = 108;
@@ -94,13 +94,15 @@ public class ManageClassesScreen extends Screen {
 
         int backgroundHeight = getBackgroundHeight();
         guiGraphics.blit(TEXTURE, x, y, 0, 0, SCREEN_WIDTH, backgroundHeight);
-        guiGraphics.blit(TEXTURE, x, y + backgroundHeight, 0, 74, SCREEN_WIDTH, 4);
+        guiGraphics.blit(TEXTURE, x, y + backgroundHeight, 0, 103, SCREEN_WIDTH, 4);
     }
 
     private int getBackgroundHeight() {
-        return 40 + (Math.min(classProfile.getNumPrimaryClasses(), 4) * (2 + CARD_HEIGHT));
+        int baseHeight = 30;
+        int cardHeight = Math.min(classProfile.getNumPrimaryClasses(), 2) * (CARD_HEIGHT + 1);
+        int ascendedHeight = classProfile.getAscendedClassSkill() != null ? 20 : 0;
+        return Math.min(baseHeight + cardHeight + ascendedHeight, MAX_SCREEN_HEIGHT);
     }
-
 
     private int getScreenStartX() {
         return (this.width - SCREEN_WIDTH) / 2;
@@ -159,8 +161,8 @@ public class ManageClassesScreen extends Screen {
     @Override
     public boolean isPauseScreen() { return false; }
 
-    private class ClassSkillRenderer {
 
+    private class ClassSkillRenderer {
         private int order;
         private PrimaryClassSkill primaryClassSkill;
         private int primaryLevel;
