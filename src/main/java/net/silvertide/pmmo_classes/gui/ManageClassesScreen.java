@@ -49,7 +49,7 @@ public class ManageClassesScreen extends Screen {
         int index = 0;
         for (Map.Entry<PrimaryClassSkill, Experience> entry : this.classProfile.getPrimaryClassMap().entrySet()) {
             SubClassSkill subClassSkill = this.classProfile.findMatchingSubClass(entry.getKey()).orElse(null);
-            ClassSkillRenderer classSkillRenderer = new ClassSkillRenderer(index, entry.getKey(),entry.getValue().getLevel().getLevel(), subClassSkill);
+            ClassSkillRenderer classSkillRenderer = new ClassSkillRenderer(this, index, entry.getKey(),entry.getValue().getLevel().getLevel(), subClassSkill);
             this.skillRenderers.add(classSkillRenderer);
             index++;
         }
@@ -72,7 +72,9 @@ public class ManageClassesScreen extends Screen {
         renderCloseButton(guiGraphics, mouseX, mouseY);
 
         if(!skillRenderers.isEmpty()) {
-            skillRenderers.forEach(skillRenderer -> skillRenderer.render(guiGraphics, mouseX, mouseY));
+            for(ClassSkillRenderer skillRenderer : skillRenderers) {
+                skillRenderer.render(guiGraphics, mouseX, mouseY);
+            }
         } else {
             renderNoClassesText(guiGraphics);
         }
@@ -109,7 +111,7 @@ public class ManageClassesScreen extends Screen {
     }
 
     private int getScreenStartY() {
-        return (this.height - MAX_SCREEN_HEIGHT) / 2;
+        return (this.height - getBackgroundHeight()) / 2;
     }
 
     // CLOSE BUTTON
@@ -144,6 +146,10 @@ public class ManageClassesScreen extends Screen {
         if(closeButtonDown && isHoveringCloseButton(mouseX, mouseY)) {
             this.onClose();
             return true;
+        } else {
+            for(ClassSkillRenderer skillRenderer : skillRenderers) {
+                skillRenderer.mouseReleased(mouseX, mouseY);
+            }
         }
         closeButtonDown = false;
         return super.mouseReleased(mouseX, mouseY, button);
@@ -154,6 +160,10 @@ public class ManageClassesScreen extends Screen {
         if(isHoveringCloseButton(mouseX, mouseY)) {
             closeButtonDown = true;
             return true;
+        } else {
+            for(ClassSkillRenderer skillRenderer : skillRenderers) {
+                skillRenderer.mouseClicked(mouseX, mouseY);
+            }
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }
@@ -163,12 +173,26 @@ public class ManageClassesScreen extends Screen {
 
 
     private class ClassSkillRenderer {
+        private static final int CARD_X = 17;
+        private static final int CARD_Y = 19;
+
+        private final int DELETE_BUTTON_X= 95;
+        private final int DELETE_BUTTON_Y = 3;
+        private final int DELETE_BUTTON_WIDTH = 12;
+        private final int DELETE_BUTTON_HEIGHT = 9;
+
+        // Control Data
+        private boolean isDeleteButtonDown = false;
+
+        //Incoming Instance Data
+        private ManageClassesScreen manageClassesScreen;
         private int order;
         private PrimaryClassSkill primaryClassSkill;
         private int primaryLevel;
         private SubClassSkill subClassSkill;
 
-        public ClassSkillRenderer(int order, PrimaryClassSkill primaryClassSkill, long primaryLevel, SubClassSkill subClassSkill) {
+        public ClassSkillRenderer(ManageClassesScreen manageClassesScreen, int order, PrimaryClassSkill primaryClassSkill, long primaryLevel, SubClassSkill subClassSkill) {
+            this.manageClassesScreen = manageClassesScreen;
             this.order = order;
             this.primaryClassSkill = primaryClassSkill;
             this.subClassSkill = subClassSkill;
@@ -183,14 +207,10 @@ public class ManageClassesScreen extends Screen {
         public void render(GuiGraphics guiGraphics, int mouseX, int mouseY) {
             renderCard(guiGraphics);
             renderClassLogo(guiGraphics);
-        }
+//            renderLevel(guiGraphics);
+//            renderName(guiGraphics);
 
-        private int getCardStartX() {
-            return getScreenStartX() + 18;
-        }
-
-        private int getCardStartY() {
-            return getScreenStartY() + 20 + (this.order * (CARD_HEIGHT + 1));
+            renderDeleteButton(guiGraphics, mouseX, mouseY);
         }
 
         private void renderCard(GuiGraphics guiGraphics) {
@@ -200,6 +220,60 @@ public class ManageClassesScreen extends Screen {
         private void renderClassLogo(GuiGraphics guiGraphics) {
             int rankOffset = (Math.min(4, primaryLevel) - 1) * 22;
             guiGraphics.blit(TEXTURE, getCardStartX() + 2, getCardStartY() + 2, this.primaryClassSkill.getXOffset() + rankOffset, this.primaryClassSkill.getYOffset(), 21, 21);
+        }
+
+        private void renderDeleteButton(GuiGraphics guiGraphics, double mouseX, double mouseY) {
+            if(isHoveringOnCard(0, 0, CARD_WIDTH, CARD_HEIGHT, mouseX, mouseY)){
+                guiGraphics.blit(TEXTURE, this.getCardStartX() + DELETE_BUTTON_X, this.getCardStartY() + DELETE_BUTTON_Y, 147, getDeleteButtonOffsetToRender(mouseX, mouseY), DELETE_BUTTON_WIDTH, DELETE_BUTTON_HEIGHT);
+            }
+        }
+
+        private int getDeleteButtonOffsetToRender(double mouseX, double mouseY) {
+            if(isDeleteButtonDown) {
+                return 85;
+            } else if(isHoveringDeleteButton(mouseX, mouseY)) {
+                return 75;
+            } else {
+                return 65;
+            }
+        }
+
+        public boolean isHoveringDeleteButton(double mouseX, double mouseY) {
+            return this.isHoveringOnCard(DELETE_BUTTON_X, DELETE_BUTTON_Y, DELETE_BUTTON_WIDTH, DELETE_BUTTON_HEIGHT, mouseX, mouseY);
+        }
+
+        private boolean isHoveringOnCard(int x, int y, int width, int height, double mouseX, double mouseY) {
+            return GUIUtil.isHovering(getCardStartX(), getCardStartY(), x, y, width, height, mouseX, mouseY);
+        }
+
+        // HELPERS
+        private int getCardStartX() {
+            return manageClassesScreen.getScreenStartX() + CARD_X;
+        }
+
+        private int getCardStartY() {
+            return manageClassesScreen.getScreenStartY() + CARD_Y + (this.order * (CARD_HEIGHT + 1));
+        }
+
+        public void mouseReleased(double mouseX, double mouseY) {
+            if(isDeleteButtonDown && isHoveringDeleteButton(mouseX, mouseY)) {
+                handleDeleteButtonPress();
+            }
+            this.isDeleteButtonDown = false;
+        }
+
+        private void handleDeleteButtonPress() {
+            Minecraft minecraft = Minecraft.getInstance();
+            if(minecraft.gameMode != null) {
+                PMMOClasses.LOGGER.info("Click");
+//                minecraft.pushGuiLayer(new DeleteConfirmationScreen(this.manageScreen, attunedItem));
+            }
+        }
+
+        public void mouseClicked(double mouseX, double mouseY) {
+            if(isHoveringDeleteButton(mouseX, mouseY)) {
+                this.isDeleteButtonDown = true;
+            }
         }
     }
 }
