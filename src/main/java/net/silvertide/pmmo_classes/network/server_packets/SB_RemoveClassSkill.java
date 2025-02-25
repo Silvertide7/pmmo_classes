@@ -1,8 +1,5 @@
 package net.silvertide.pmmo_classes.network.server_packets;
 
-import com.mojang.serialization.Codec;
-import harmonised.pmmo.config.codecs.CodecTypes;
-import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -13,7 +10,6 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.silvertide.pmmo_classes.PMMOClasses;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.UUID;
 
 public record SB_RemoveClassSkill(String skill) implements CustomPacketPayload {
     public static final Type<SB_RemoveClassSkill> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(PMMOClasses.MOD_ID, "sb_remove_class_skill"));
@@ -24,7 +20,7 @@ public record SB_RemoveClassSkill(String skill) implements CustomPacketPayload {
     public static void handle(SB_RemoveClassSkill packet, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
             if(ctx.player() instanceof ServerPlayer player) {
-                //TODO: Remove skill / subclasses
+                //TODO: Remove skill / subclasses / ascended classes
             }
         });
     }

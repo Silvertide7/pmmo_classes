@@ -1,19 +1,19 @@
 package net.silvertide.pmmo_classes.data;
 
 public enum PrimaryClassSkill implements IClassSkill {
-    ARTIFICER(ClassGroup.EXPERT,160,26),
-    BARBARIAN(ClassGroup.WARRIOR,160,48),
-    BARD(ClassGroup.EXPERT,160,70),
-    CLERIC(ClassGroup.PRIEST,160,92),
-    DRUID(ClassGroup.PRIEST,160,114),
-    FIGHTER(ClassGroup.WARRIOR,160,136),
-    MONK(ClassGroup.WARRIOR,160,158),
-    PALADIN(ClassGroup.PRIEST,88,180),
-    RANGER(ClassGroup.EXPERT,160,202),
-    ROGUE(ClassGroup.EXPERT,160,224),
-    SORCERER(ClassGroup.MAGE,72,180),
-    WARLOCK(ClassGroup.MAGE,72,202),
-    WIZARD(ClassGroup.MAGE,72,224);
+    ARTIFICER(ClassGroup.EXPERT,0,0),
+    BARBARIAN(ClassGroup.WARRIOR,0,22),
+    BARD(ClassGroup.EXPERT,0,44),
+    CLERIC(ClassGroup.PRIEST,0,66),
+    DRUID(ClassGroup.PRIEST,0,88),
+    FIGHTER(ClassGroup.WARRIOR,0,110),
+    MONK(ClassGroup.WARRIOR,0,132),
+    PALADIN(ClassGroup.PRIEST,88,154),
+    RANGER(ClassGroup.EXPERT,0,176),
+    ROGUE(ClassGroup.EXPERT,0,198),
+    SORCERER(ClassGroup.MAGE,0,220),
+    WARLOCK(ClassGroup.MAGE,88,0),
+    WIZARD(ClassGroup.MAGE,88,22);
 
     private final ClassGroup group;
     private final int xOffset;

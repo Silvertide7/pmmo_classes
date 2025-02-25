@@ -21,6 +21,7 @@ import java.util.Map;
 @OnlyIn(Dist.CLIENT)
 public class ManageClassesScreen extends Screen {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(PMMOClasses.MOD_ID, "textures/gui/gui_manage_classes_screen.png");
+    private static final ResourceLocation CLASS_ICON_TEXTURE = ResourceLocation.fromNamespaceAndPath(PMMOClasses.MOD_ID, "textures/gui/class_icons.png");
     private static final int SCREEN_WIDTH = 146;
     private static final int MAX_SCREEN_HEIGHT = 101;
 
@@ -35,22 +36,22 @@ public class ManageClassesScreen extends Screen {
 
     private boolean closeButtonDown = false;
 
-    private final PlayerClassProfile classProfile;
-    private final List<ClassSkillRenderer> skillRenderers;
+    private PlayerClassProfile classProfile;
+    private List<ClassCard> classCards;
 
     public ManageClassesScreen() {
         super(Component.literal(""));
-        this.classProfile = new PlayerClassProfile(Minecraft.getInstance().player);
-        this.skillRenderers = new ArrayList<>();
-        addSkillRenderers();
+        createClassCards();
     }
 
-    private void addSkillRenderers() {
+    public void createClassCards() {
+        this.classProfile = new PlayerClassProfile(Minecraft.getInstance().player);
+        this.classCards = new ArrayList<>();
         int index = 0;
         for (Map.Entry<PrimaryClassSkill, Experience> entry : this.classProfile.getPrimaryClassMap().entrySet()) {
             SubClassSkill subClassSkill = this.classProfile.findMatchingSubClass(entry.getKey()).orElse(null);
-            ClassSkillRenderer classSkillRenderer = new ClassSkillRenderer(this, index, entry.getKey(),entry.getValue().getLevel().getLevel(), subClassSkill);
-            this.skillRenderers.add(classSkillRenderer);
+            ClassCard classSkillRenderer = new ClassCard(this, index, entry.getKey(),entry.getValue().getLevel().getLevel(), subClassSkill);
+            this.classCards.add(classSkillRenderer);
             index++;
         }
     }
@@ -71,8 +72,8 @@ public class ManageClassesScreen extends Screen {
         renderTitle(guiGraphics);
         renderCloseButton(guiGraphics, mouseX, mouseY);
 
-        if(!skillRenderers.isEmpty()) {
-            for(ClassSkillRenderer skillRenderer : skillRenderers) {
+        if(!classCards.isEmpty()) {
+            for(ClassCard skillRenderer : classCards) {
                 skillRenderer.render(guiGraphics, mouseX, mouseY);
             }
         } else {
@@ -147,7 +148,7 @@ public class ManageClassesScreen extends Screen {
             this.onClose();
             return true;
         } else {
-            for(ClassSkillRenderer skillRenderer : skillRenderers) {
+            for(ClassCard skillRenderer : classCards) {
                 skillRenderer.mouseReleased(mouseX, mouseY);
             }
         }
@@ -161,7 +162,7 @@ public class ManageClassesScreen extends Screen {
             closeButtonDown = true;
             return true;
         } else {
-            for(ClassSkillRenderer skillRenderer : skillRenderers) {
+            for(ClassCard skillRenderer : classCards) {
                 skillRenderer.mouseClicked(mouseX, mouseY);
             }
         }
@@ -172,7 +173,7 @@ public class ManageClassesScreen extends Screen {
     public boolean isPauseScreen() { return false; }
 
 
-    private class ClassSkillRenderer {
+    private class ClassCard {
         private static final int CARD_X = 17;
         private static final int CARD_Y = 19;
 
@@ -191,7 +192,7 @@ public class ManageClassesScreen extends Screen {
         private int primaryLevel;
         private SubClassSkill subClassSkill;
 
-        public ClassSkillRenderer(ManageClassesScreen manageClassesScreen, int order, PrimaryClassSkill primaryClassSkill, long primaryLevel, SubClassSkill subClassSkill) {
+        public ClassCard(ManageClassesScreen manageClassesScreen, int order, PrimaryClassSkill primaryClassSkill, long primaryLevel, SubClassSkill subClassSkill) {
             this.manageClassesScreen = manageClassesScreen;
             this.order = order;
             this.primaryClassSkill = primaryClassSkill;
@@ -218,8 +219,8 @@ public class ManageClassesScreen extends Screen {
         }
 
         private void renderClassLogo(GuiGraphics guiGraphics) {
-            int rankOffset = (Math.min(4, primaryLevel) - 1) * 22;
-            guiGraphics.blit(TEXTURE, getCardStartX() + 2, getCardStartY() + 2, this.primaryClassSkill.getXOffset() + rankOffset, this.primaryClassSkill.getYOffset(), 21, 21);
+            int rankOffset = GUIUtil.getClassRankHorizOffset(primaryLevel);
+            guiGraphics.blit(CLASS_ICON_TEXTURE, getCardStartX() + 2, getCardStartY() + 2, this.primaryClassSkill.getXOffset() + rankOffset, this.primaryClassSkill.getYOffset(), 21, 21);
         }
 
         private void renderDeleteButton(GuiGraphics guiGraphics, double mouseX, double mouseY) {

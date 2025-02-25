@@ -24,6 +24,11 @@ public final class GUIUtil {
         return pMouseX >= (double)(pX - 1) && pMouseX < (double)(pX + pWidth + 1) && pMouseY >= (double)(pY - 1) && pMouseY < (double)(pY + pHeight + 1);
     }
 
+    public static int getClassRankHorizOffset(int level) {
+        return (Math.min(4, level) - 1) * 22;
+
+    }
+
     public static void drawScaledString(GuiGraphics guiGraphics, float textScale, Font font, String text, int textX, int textY, int color) {
         if(text == null || textScale == 0.0F || "".equals(text)) return;
 
