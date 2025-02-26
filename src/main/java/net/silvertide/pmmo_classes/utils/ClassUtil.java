@@ -32,4 +32,8 @@ public final class ClassUtil {
             return Optional.empty();
         }
     }
+
+    public static String getSkillString(Enum<?> classSkill) {
+        return classSkill.name().toLowerCase();
+    }
 }

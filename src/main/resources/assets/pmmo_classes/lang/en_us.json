@@ -1,7 +1,6 @@
 {
-  "pmmo.artificer": "Artificer",
-  "pmmo.barbarian": "Barbarian",
-
+  "key.categories.pmmo_classes": "PMMO Classes",
+  "key.pmmo_classes.useOpenManageClassesKey": "Open Classes Screen",
   "item.pmmo_classes.skill_book": "Skill Book",
   "item.pmmo_classes.gold_skill_book": "Golden Skill Book",
   "item.pmmo_classes.emerald_skill_book": "Emerald Skill Book",
@@ -28,5 +27,8 @@
   "pmmo_classes.message.wrong_effect": "Invalid application type, must be level or xp.",
 
   "pmmo_classes.screen.manage_classes.title": "Class",
-  "pmmo_classes.screen.manage_classes.no_classes_text": "You have no classes"
+  "pmmo_classes.screen.manage_classes.no_classes_text": "You have no classes",
+
+  "pmmo.artificer": "Artificer",
+  "pmmo.barbarian": "Barbarian"
 }

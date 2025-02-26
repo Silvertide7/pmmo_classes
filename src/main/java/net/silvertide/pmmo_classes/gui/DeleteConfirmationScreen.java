@@ -8,14 +8,16 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.silvertide.pmmo_classes.PMMOClasses;
+import net.silvertide.pmmo_classes.data.PrimaryClassSkill;
 import net.silvertide.pmmo_classes.network.server_packets.SB_RemoveClassSkill;
+import net.silvertide.pmmo_classes.utils.ClassUtil;
 import net.silvertide.pmmo_classes.utils.GUIUtil;
 
 @OnlyIn(Dist.CLIENT)
 public class DeleteConfirmationScreen extends Screen {
     private static final float TEXT_SCALE = 0.85F;
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(PMMOClasses.MOD_ID, "textures/gui/gui_delete_class_confirmation.png");
-    private static final ResourceLocation CLASS_ICON_TEXTURE = ResourceLocation.fromNamespaceAndPath(PMMOClasses.MOD_ID, "textures/gui/class_icons.png");
+//    private static final ResourceLocation CLASS_ICON_TEXTURE = ResourceLocation.fromNamespaceAndPath(PMMOClasses.MOD_ID, "textures/gui/class_icons.png");
     private static final int SCREEN_WIDTH = 146;
     private static final int SCREEN_HEIGHT = 81;
 
@@ -26,11 +28,12 @@ public class DeleteConfirmationScreen extends Screen {
 
     // Instance Variables
     private final ManageClassesScreen manageScreen;
-    private final String classSkillToDelete;
+    private final PrimaryClassSkill classSkillToDelete;
+
     private boolean cancelButtonDown = false;
     private boolean confirmButtonDown = false;
 
-    protected DeleteConfirmationScreen(ManageClassesScreen manageScreen, String classSkillToDelete) {
+    protected DeleteConfirmationScreen(ManageClassesScreen manageScreen, PrimaryClassSkill classSkillToDelete) {
         super(Component.literal(""));
         this.manageScreen = manageScreen;
         this.classSkillToDelete = classSkillToDelete;
@@ -52,7 +55,7 @@ public class DeleteConfirmationScreen extends Screen {
         int y = getScreenStartY();
 
         guiGraphics.pose().pushPose();
-        guiGraphics.pose().translate(0F, 0F, 5000F);
+        guiGraphics.pose().translate(0F, 0F, 1000F);
         guiGraphics.blit(TEXTURE, x, y, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         renderDeleteText(guiGraphics);
@@ -70,7 +73,7 @@ public class DeleteConfirmationScreen extends Screen {
     }
 
     private void renderDeleteText(GuiGraphics guiGraphics) {
-        Component deleteText = Component.translatable("screen.text.pmmo_classes.confirmation.delete_text", this.classSkillToDelete);
+        Component deleteText = Component.translatable("screen.text.pmmo_classes.confirmation.delete_text", GUIUtil.prettifyEnum(this.classSkillToDelete));
         GUIUtil.drawScaledCenteredWordWrap(guiGraphics, TEXT_SCALE, this.font, deleteText, getScreenStartX() + SCREEN_WIDTH / 2, getScreenStartY() + 18, SCREEN_WIDTH * 8 / 10, 0xFFFFFF);
     }
 
@@ -157,7 +160,7 @@ public class DeleteConfirmationScreen extends Screen {
             this.onClose();
             return true;
         } else if(confirmButtonDown && isHoveringConfirmButton(mouseX, mouseY)){
-            PacketDistributor.sendToServer(new SB_RemoveClassSkill(classSkillToDelete));
+            PacketDistributor.sendToServer(new SB_RemoveClassSkill(this.classSkillToDelete.getSkillName()));
             this.onClose();
             return true;
         }

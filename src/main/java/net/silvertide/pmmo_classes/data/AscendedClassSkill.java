@@ -1,5 +1,7 @@
 package net.silvertide.pmmo_classes.data;
 
+import net.silvertide.pmmo_classes.utils.ClassUtil;
+
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -106,15 +108,18 @@ public enum AscendedClassSkill implements IClassSkill {
     public PrimaryClassSkill getFirstPrimaryClass() {
         return firstPrimaryClass;
     }
-    public PrimaryClassSkill getSecondPrimaryClass() {
-        return secondPrimaryClass;
-    }
+    public PrimaryClassSkill getSecondPrimaryClass() { return secondPrimaryClass; }
 
     public static Optional<AscendedClassSkill> getAscendedClassSkill(PrimaryClassSkill firstPrimaryClass, PrimaryClassSkill secondPrimaryClass) {
         return Arrays.stream(AscendedClassSkill.values())
                 .filter(ascendedClassSkill -> ascendedClassSkill.getFirstPrimaryClass().equals(firstPrimaryClass) && ascendedClassSkill.getSecondPrimaryClass().equals(secondPrimaryClass)
                         || ascendedClassSkill.getFirstPrimaryClass().equals(secondPrimaryClass) && ascendedClassSkill.getSecondPrimaryClass().equals(firstPrimaryClass))
                 .findFirst();
+    }
+
+    @Override
+    public String getSkillName() {
+        return ClassUtil.getSkillString(this);
     }
 
     @Override

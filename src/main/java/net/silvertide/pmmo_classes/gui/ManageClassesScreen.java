@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.silvertide.pmmo_classes.PMMOClasses;
+import net.silvertide.pmmo_classes.client.keybindings.Keybindings;
 import net.silvertide.pmmo_classes.data.PlayerClassProfile;
 import net.silvertide.pmmo_classes.data.PrimaryClassSkill;
 import net.silvertide.pmmo_classes.data.SubClassSkill;
@@ -170,6 +171,16 @@ public class ManageClassesScreen extends Screen {
     }
 
     @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if(keyCode == Keybindings.INSTANCE.useOpenManageClassesKey.getKey().getValue()) {
+            onClose();
+            return true;
+        } else {
+            return super.keyPressed(keyCode, scanCode, modifiers);
+        }
+    }
+
+    @Override
     public boolean isPauseScreen() { return false; }
 
 
@@ -177,8 +188,8 @@ public class ManageClassesScreen extends Screen {
         private static final int CARD_X = 17;
         private static final int CARD_Y = 19;
 
-        private final int DELETE_BUTTON_X= 95;
-        private final int DELETE_BUTTON_Y = 3;
+        private final int DELETE_BUTTON_X= 94;
+        private final int DELETE_BUTTON_Y = 2;
         private final int DELETE_BUTTON_WIDTH = 12;
         private final int DELETE_BUTTON_HEIGHT = 9;
 
@@ -246,7 +257,6 @@ public class ManageClassesScreen extends Screen {
             int textOffsetY = 5;
             float textScale = 0.6F;
 
-            String primaryClassTitle = GUIUtil.prettifyEnum(this.primaryClassSkill);
             Component levelComp = Component.translatable("screen.text.pmmo_classes.manage.level", primaryLevel);
             GUIUtil.drawScaledWordWrap(guiGraphics, textScale, manageClassesScreen.font, levelComp, getCardStartX() + textOffsetX, getCardStartY() + textOffsetY, 40, 0xFFFFFF);
         }
@@ -294,8 +304,7 @@ public class ManageClassesScreen extends Screen {
         private void handleDeleteButtonPress() {
             Minecraft minecraft = Minecraft.getInstance();
             if(minecraft.gameMode != null) {
-                PMMOClasses.LOGGER.info("Click");
-//                minecraft.pushGuiLayer(new DeleteConfirmationScreen(this.manageScreen, attunedItem));
+                minecraft.pushGuiLayer(new DeleteConfirmationScreen(this.manageClassesScreen, this.primaryClassSkill));
             }
         }
 

@@ -1,5 +1,7 @@
 package net.silvertide.pmmo_classes.data;
 
+import net.silvertide.pmmo_classes.utils.ClassUtil;
+
 public enum PrimaryClassSkill implements IClassSkill {
     ARTIFICER(ClassGroup.EXPERT,0,0),
     BARBARIAN(ClassGroup.WARRIOR,0,22),
@@ -30,6 +32,11 @@ public enum PrimaryClassSkill implements IClassSkill {
     public int getXOffset() { return this.xOffset; }
 
     public int getYOffset() { return this.yOffset; }
+
+    @Override
+    public String getSkillName() {
+        return ClassUtil.getSkillString(this);
+    }
 
     @Override
     public ClassType getClassType() { return ClassType.PRIMARY; }

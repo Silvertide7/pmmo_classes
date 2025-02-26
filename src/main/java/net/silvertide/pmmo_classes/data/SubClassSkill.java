@@ -1,5 +1,7 @@
 package net.silvertide.pmmo_classes.data;
 
+import net.silvertide.pmmo_classes.utils.ClassUtil;
+
 public enum SubClassSkill implements IClassSkill {
     ALCHEMIST(PrimaryClassSkill.ARTIFICER),
     ARMORER(PrimaryClassSkill.ARTIFICER),
@@ -49,6 +51,11 @@ public enum SubClassSkill implements IClassSkill {
 
     public PrimaryClassSkill getParentClass() {
         return parentClass;
+    }
+
+    @Override
+    public String getSkillName() {
+        return ClassUtil.getSkillString(this);
     }
 
     @Override
