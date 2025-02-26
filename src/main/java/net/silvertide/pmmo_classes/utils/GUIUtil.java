@@ -10,7 +10,9 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
+import java.util.Arrays;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public final class GUIUtil {
     private static final Random SOUND_RNG = new Random();
@@ -98,6 +100,24 @@ public final class GUIUtil {
         guiGraphics.drawWordWrap(font, buttonTextComp, scaledTextX, scaledTextY, (int) (lineWidth / textScale), color);
 
         guiGraphics.pose().popPose();
+    }
+
+    public static String prettifyEnumCaps(Enum<?> enumValue) {
+        if (enumValue == null) {
+            return "";
+        }
+        return enumValue.name().replace("_", " ");
+    }
+
+    public static String prettifyEnum(Enum<?> enumValue) {
+        if (enumValue == null) {
+            return "";
+        }
+        String[] words = enumValue.name().toLowerCase().split("_");
+        return Arrays.stream(words)
+                .map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1))
+                .collect(Collectors.joining(" "));
+
     }
 
     public static String prettifyName(String resourceLocation) {

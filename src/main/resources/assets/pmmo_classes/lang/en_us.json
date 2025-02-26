@@ -9,9 +9,10 @@
   "creative_tab.pmmo_classes.classes": "PMMO Skill Books",
 
   "screen.text.pmmo_classes.confirmation.delete_text": "Are you sure you want to remove the class %1$s?",
-
   "screen.button.pmmo_classes.confirmation.confirm": "§2Confirm§r",
   "screen.button.pmmo_classes.confirmation.cancel": "§cCancel§r",
+
+  "screen.text.pmmo_classes.manage.level": "Lv %1$s",
 
   "pmmo_classes.message.no_skill_specified": "Skill book has no skill specified.",
   "pmmo_classes.message.value_zero_or_less": "Skill value must be greater than 0.",

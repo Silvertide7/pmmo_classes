@@ -208,11 +208,11 @@ public class ManageClassesScreen extends Screen {
         public void render(GuiGraphics guiGraphics, int mouseX, int mouseY) {
             renderCard(guiGraphics);
             renderClassLogo(guiGraphics);
-//            renderLevel(guiGraphics);
-//            renderName(guiGraphics);
-
+            renderCardTitle(guiGraphics);
+            renderLevel(guiGraphics);
             renderDeleteButton(guiGraphics, mouseX, mouseY);
         }
+
 
         private void renderCard(GuiGraphics guiGraphics) {
             guiGraphics.blit(TEXTURE, getCardStartX(), getCardStartY(), 147, 0, CARD_WIDTH, CARD_HEIGHT);
@@ -221,6 +221,34 @@ public class ManageClassesScreen extends Screen {
         private void renderClassLogo(GuiGraphics guiGraphics) {
             int rankOffset = GUIUtil.getClassRankHorizOffset(primaryLevel);
             guiGraphics.blit(CLASS_ICON_TEXTURE, getCardStartX() + 2, getCardStartY() + 2, this.primaryClassSkill.getXOffset() + rankOffset, this.primaryClassSkill.getYOffset(), 21, 21);
+        }
+
+        private void renderCardTitle(GuiGraphics guiGraphics) {
+            int textOffsetX = 28;
+            int textOffsetY = 5;
+            float textScale = 0.7F;
+
+            String primaryClassTitle = GUIUtil.prettifyEnum(this.primaryClassSkill);
+            GUIUtil.drawScaledString(guiGraphics, textScale, manageClassesScreen.font, primaryClassTitle, getCardStartX() + textOffsetX, getCardStartY() + textOffsetY, 0xFFFFFF);
+
+            if(this.subClassSkill != null) {
+                int subClassTextOffsetX = 0;
+                int subClassTextOffsetY = 8;
+                float subClassTextScale = 0.5F;
+
+                String subClassTitle = GUIUtil.prettifyEnum(this.subClassSkill);
+                GUIUtil.drawScaledString(guiGraphics, subClassTextScale, manageClassesScreen.font, subClassTitle, getCardStartX() + textOffsetX + subClassTextOffsetX, getCardStartY() + textOffsetY + subClassTextOffsetY, 0xFFFFFF);
+            }
+        }
+
+        private void renderLevel(GuiGraphics guiGraphics) {
+            int textOffsetX = 75;
+            int textOffsetY = 5;
+            float textScale = 0.6F;
+
+            String primaryClassTitle = GUIUtil.prettifyEnum(this.primaryClassSkill);
+            Component levelComp = Component.translatable("screen.text.pmmo_classes.manage.level", primaryLevel);
+            GUIUtil.drawScaledWordWrap(guiGraphics, textScale, manageClassesScreen.font, levelComp, getCardStartX() + textOffsetX, getCardStartY() + textOffsetY, 40, 0xFFFFFF);
         }
 
         private void renderDeleteButton(GuiGraphics guiGraphics, double mouseX, double mouseY) {
