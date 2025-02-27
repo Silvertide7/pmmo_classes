@@ -14,6 +14,7 @@ import net.silvertide.pmmo_classes.data.PlayerClassProfile;
 import net.silvertide.pmmo_classes.data.PrimaryClassSkill;
 import net.silvertide.pmmo_classes.data.SubClassSkill;
 import net.silvertide.pmmo_classes.utils.GUIUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class ManageClassesScreen extends Screen {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(PMMOClasses.MOD_ID, "textures/gui/gui_manage_classes_screen.png");
     private static final ResourceLocation CLASS_ICON_TEXTURE = ResourceLocation.fromNamespaceAndPath(PMMOClasses.MOD_ID, "textures/gui/class_icons.png");
     private static final int SCREEN_WIDTH = 146;
-    private static final int MAX_SCREEN_HEIGHT = 101;
+    private static final int MAX_SCREEN_HEIGHT = 106;
 
     private static final int CARD_HEIGHT = 25;
     private static final int CARD_WIDTH = 108;
@@ -58,7 +59,7 @@ public class ManageClassesScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         try {
             super.render(guiGraphics, mouseX, mouseY, partialTicks);
         } catch (Exception ignore) {
@@ -67,7 +68,7 @@ public class ManageClassesScreen extends Screen {
     }
 
     @Override
-    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void renderBackground(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         renderTransparentBackground(guiGraphics);
         renderScreenBackground(guiGraphics);
         renderTitle(guiGraphics);
@@ -77,19 +78,10 @@ public class ManageClassesScreen extends Screen {
             for(ClassCard skillRenderer : classCards) {
                 skillRenderer.render(guiGraphics, mouseX, mouseY);
             }
+            renderAscendedClassText(guiGraphics);
         } else {
             renderNoClassesText(guiGraphics);
         }
-    }
-
-    private void renderNoClassesText(GuiGraphics guiGraphics) {
-        Component buttonTextComp = Component.translatable("pmmo_classes.screen.manage_classes.no_classes_text");
-        GUIUtil.drawScaledCenteredWordWrap(guiGraphics, 0.85F, this.font, buttonTextComp, this.getScreenStartX() + SCREEN_WIDTH / 2, this.getScreenStartY() + this.getBackgroundHeight() / 2, 100, 0xFFFFFF);
-    }
-
-    private void renderTitle(GuiGraphics guiGraphics) {
-        Component buttonTextComp = Component.translatable("pmmo_classes.screen.manage_classes.title");
-        GUIUtil.drawScaledCenteredWordWrap(guiGraphics, 0.85F, this.font, buttonTextComp, this.getScreenStartX() + SCREEN_WIDTH / 2, this.getScreenStartY() + 8, 100, 0xFFFFFF);
     }
 
     private void renderScreenBackground(GuiGraphics guiGraphics) {
@@ -98,7 +90,47 @@ public class ManageClassesScreen extends Screen {
 
         int backgroundHeight = getBackgroundHeight();
         guiGraphics.blit(TEXTURE, x, y, 0, 0, SCREEN_WIDTH, backgroundHeight);
-        guiGraphics.blit(TEXTURE, x, y + backgroundHeight, 0, 103, SCREEN_WIDTH, 4);
+        guiGraphics.blit(TEXTURE, x, y + backgroundHeight, 0, 107, SCREEN_WIDTH, 3);
+    }
+
+    private void renderTitle(GuiGraphics guiGraphics) {
+        Component buttonTextComp = Component.translatable("pmmo_classes.screen.manage_classes.title");
+        GUIUtil.drawScaledCenteredWordWrap(guiGraphics, 0.85F, this.font, buttonTextComp, this.getScreenStartX() + SCREEN_WIDTH / 2, this.getScreenStartY() + 8, 100, 0xFFFFFF);
+    }
+
+    private void renderNoClassesText(GuiGraphics guiGraphics) {
+        Component buttonTextComp = Component.translatable("pmmo_classes.screen.manage_classes.no_classes_text");
+        GUIUtil.drawScaledCenteredWordWrap(guiGraphics, 0.7F, this.font, buttonTextComp, this.getScreenStartX() + SCREEN_WIDTH / 2, this.getScreenStartY() + this.getBackgroundHeight() / 2 + 5, 100, 0xFFFFFF);
+    }
+
+    private void renderCloseButton(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        int buttonX = this.getScreenStartX() + CLOSE_BUTTON_X;
+        int buttonY = this.getScreenStartY() + CLOSE_BUTTON_Y;
+
+        int buttonOffset = getCloseButtonOffsetToRender(mouseX, mouseY);
+        guiGraphics.blit(TEXTURE, buttonX, buttonY, 147, buttonOffset, CLOSE_BUTTON_WIDTH, CLOSE_BUTTON_HEIGHT);
+    }
+
+    private void renderAscendedClassText(@NotNull GuiGraphics guiGraphics) {
+        if(classCards.size() == 2 && this.classProfile.getAscendedClassSkill() != null) {
+            int ascendedCardX = this.getScreenStartX() + SCREEN_WIDTH / 2;
+            int ascendedCardY = this.getScreenStartY() + getBackgroundHeight() / 2 + 34;
+
+            guiGraphics.blit(TEXTURE, ascendedCardX - 47, ascendedCardY - 10, 161, 27, 94, 21);
+
+            Component skillComponent = Component.literal(GUIUtil.prettifyEnum(this.classProfile.getAscendedClassSkill()));
+            GUIUtil.drawScaledCenteredWordWrap(guiGraphics, 0.75F, this.font, skillComponent, ascendedCardX, ascendedCardY,100, 0xe6f8fa);
+        }
+    }
+
+    private int getCloseButtonOffsetToRender(int mouseX, int mouseY) {
+        if(closeButtonDown) {
+            return 52;
+        } else if (isHoveringCloseButton(mouseX, mouseY)) {
+            return 39;
+        } else {
+            return 26;
+        }
     }
 
     private int getBackgroundHeight() {
@@ -116,31 +148,12 @@ public class ManageClassesScreen extends Screen {
         return (this.height - getBackgroundHeight()) / 2;
     }
 
-    // CLOSE BUTTON
-    private void renderCloseButton(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        int buttonX = this.getScreenStartX() + CLOSE_BUTTON_X;
-        int buttonY = this.getScreenStartY() + CLOSE_BUTTON_Y;
-
-        int buttonOffset = getCloseButtonOffsetToRender(mouseX, mouseY);
-        guiGraphics.blit(TEXTURE, buttonX, buttonY, 147, buttonOffset, CLOSE_BUTTON_WIDTH, CLOSE_BUTTON_HEIGHT);
-    }
-
-    private int getCloseButtonOffsetToRender(int mouseX, int mouseY) {
-        if(closeButtonDown) {
-            return 52;
-        } else if (isHoveringCloseButton(mouseX, mouseY)) {
-            return 39;
-        } else {
-            return 26;
-        }
-    }
-
     private boolean isHoveringCloseButton(double mouseX, double mouseY) {
         return isHovering(CLOSE_BUTTON_X, CLOSE_BUTTON_Y, CLOSE_BUTTON_WIDTH, CLOSE_BUTTON_HEIGHT, mouseX, mouseY);
     }
 
-    private boolean isHovering(int pX, int pY, int pWidth, int pHeight, double pMouseX, double pMouseY) {
-        return GUIUtil.isHovering(this.getScreenStartX(), this.getScreenStartY(), pX, pY, pWidth, pHeight, pMouseX, pMouseY);
+    private boolean isHovering(int x, int y, int width, int height, double mouseX, double mouseY) {
+        return GUIUtil.isHovering(this.getScreenStartX(), this.getScreenStartY(), x, y, width, height, mouseX, mouseY);
     }
 
     @Override
@@ -197,11 +210,11 @@ public class ManageClassesScreen extends Screen {
         private boolean isDeleteButtonDown = false;
 
         //Incoming Instance Data
-        private ManageClassesScreen manageClassesScreen;
-        private int order;
-        private PrimaryClassSkill primaryClassSkill;
+        private final ManageClassesScreen manageClassesScreen;
+        private final int order;
+        private final PrimaryClassSkill primaryClassSkill;
         private int primaryLevel;
-        private SubClassSkill subClassSkill;
+        private final SubClassSkill subClassSkill;
 
         public ClassCard(ManageClassesScreen manageClassesScreen, int order, PrimaryClassSkill primaryClassSkill, long primaryLevel, SubClassSkill subClassSkill) {
             this.manageClassesScreen = manageClassesScreen;
