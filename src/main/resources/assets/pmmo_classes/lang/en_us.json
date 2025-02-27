@@ -27,7 +27,9 @@
   "pmmo_classes.message.wrong_effect": "Invalid application type, must be level or xp.",
 
   "pmmo_classes.screen.manage_classes.title": "Class",
-  "pmmo_classes.screen.manage_classes.no_classes_text": "You have no classes",
+  "pmmo_classes.screen.manage_classes.no_classes_text": "No classes learned.",
+
+  "pmmo_classes.message.remove_classes": "You have lost the classes %1$s",
 
   "pmmo.artificer": "Artificer",
   "pmmo.barbarian": "Barbarian"

@@ -30,6 +30,7 @@ public class PlayerClassProfile {
             xpMap.forEach((skillKey, experience) -> {
                     ClassUtil.getPrimaryClass(skillKey).ifPresent(primaryClassSkill -> primaryClassMap.put(primaryClassSkill, experience));
                     ClassUtil.getSubClass(skillKey).ifPresent(subClassSkill -> subClassMap.put(subClassSkill, experience));
+
                     if(ascendedClassSkill == null) {
                         ClassUtil.getAscendedClass(skillKey).ifPresent(ascendedClass -> this.ascendedClassSkill = ascendedClass);
                     }

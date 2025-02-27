@@ -8,4 +8,8 @@ public final class PlayerMessenger {
     public static void displayTranslatabelClientMessage(Player player, Component translation) {
         player.displayClientMessage(translation, true);
     }
+
+    public static void sendTranslatableSystemMessage(Player player, String translationKey) {
+        player.sendSystemMessage(Component.translatable(translationKey));
+    }
 }

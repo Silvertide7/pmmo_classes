@@ -67,7 +67,7 @@ public enum AscendedClassSkill implements IClassSkill {
     VANGAURD(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.RANGER),
     BLADEMASTER(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.ROGUE), // TODO: RENAME
     SPELLBLADE(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.SORCERER), // TODO: RENAME
-    HEXBLADE(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.WARLOCK), // TODO: RENAME
+    HEX_MASTER(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.WARLOCK), // TODO: RENAME
     BATTLEMAGE(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.WIZARD), // TODO: RENAME
 
     FIST_OF_THE_LIGHT(PrimaryClassSkill.MONK, PrimaryClassSkill.PALADIN), // TODO: RENAME

@@ -7,6 +7,7 @@ import harmonised.pmmo.core.IDataStorage;
 import harmonised.pmmo.network.Networking;
 import harmonised.pmmo.network.clientpackets.CP_SyncData_ClearXp;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -21,6 +22,8 @@ import net.silvertide.pmmo_classes.data.PlayerClassProfile;
 import net.silvertide.pmmo_classes.data.PrimaryClassSkill;
 import net.silvertide.pmmo_classes.data.SubClassSkill;
 import net.silvertide.pmmo_classes.network.client_packets.CB_ClassRemoved;
+import net.silvertide.pmmo_classes.utils.GUIUtil;
+import net.silvertide.pmmo_classes.utils.PlayerMessenger;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -38,24 +41,7 @@ public record SB_RemoveClassSkill(String skill) implements CustomPacketPayload {
             if(ctx.player() instanceof ServerPlayer serverPlayer) {
                 String primaryClassSkillToRemove = packet.skill();
                 PlayerClassProfile profile = new PlayerClassProfile(serverPlayer);
-                List<String> skillsToRemove = new ArrayList<>();
-
-                for(PrimaryClassSkill primaryClassSkill : profile.getPrimaryClassesAsList()) {
-                    if(primaryClassSkillToRemove.equals(primaryClassSkill.getSkillName())) {
-                        skillsToRemove.add(primaryClassSkill.getSkillName());
-                    }
-                }
-
-                for(SubClassSkill subClassSkill : profile.getSubClassesAsList()) {
-                    if(primaryClassSkillToRemove.equals(subClassSkill.getParentClass().getSkillName())) {
-                        skillsToRemove.add(subClassSkill.getSkillName());
-                    }
-                }
-
-                AscendedClassSkill ascendedClassSkill = profile.getAscendedClassSkill();
-                if(ascendedClassSkill != null && (primaryClassSkillToRemove.equals(ascendedClassSkill.getFirstPrimaryClass().getSkillName()) || primaryClassSkillToRemove.equals(ascendedClassSkill.getSecondPrimaryClass().getSkillName()))) {
-                    skillsToRemove.add(ascendedClassSkill.getSkillName());
-                }
+                List<String> skillsToRemove = getSkillsToRemove(profile, primaryClassSkillToRemove);
 
                 for(String skill : skillsToRemove) {
                     IDataStorage data = Core.get(LogicalSide.SERVER).getData();
@@ -66,8 +52,42 @@ public record SB_RemoveClassSkill(String skill) implements CustomPacketPayload {
                 if(!skillsToRemove.isEmpty()) {
                     PacketDistributor.sendToPlayer(serverPlayer, new CB_ClassRemoved());
                 }
+
+                StringBuilder skillsRemovedDisplay = new StringBuilder();
+                skillsRemovedDisplay.append("[ ");
+                for(int i = 0; i < skillsToRemove.size(); i++) {
+                    skillsRemovedDisplay.append(GUIUtil.prettifyName(skillsToRemove.get(i)));
+
+                    if(i != skillsToRemove.size() - 1) {
+                        skillsRemovedDisplay.append(", ");
+                    }
+                }
+                skillsRemovedDisplay.append("]");
+                serverPlayer.sendSystemMessage(Component.translatable("pmmo_classes.message.remove_classes", skillsRemovedDisplay.toString()));
             }
         });
+    }
+
+    private static @NotNull List<String> getSkillsToRemove(PlayerClassProfile profile, String primaryClassSkillToRemove) {
+        List<String> skillsToRemove = new ArrayList<>();
+
+        for(PrimaryClassSkill primaryClassSkill : profile.getPrimaryClassesAsList()) {
+            if(primaryClassSkillToRemove.equals(primaryClassSkill.getSkillName())) {
+                skillsToRemove.add(primaryClassSkill.getSkillName());
+            }
+        }
+
+        for(SubClassSkill subClassSkill : profile.getSubClassesAsList()) {
+            if(primaryClassSkillToRemove.equals(subClassSkill.getParentClass().getSkillName())) {
+                skillsToRemove.add(subClassSkill.getSkillName());
+            }
+        }
+
+        AscendedClassSkill ascendedClassSkill = profile.getAscendedClassSkill();
+        if(ascendedClassSkill != null && (primaryClassSkillToRemove.equals(ascendedClassSkill.getFirstPrimaryClass().getSkillName()) || primaryClassSkillToRemove.equals(ascendedClassSkill.getSecondPrimaryClass().getSkillName()))) {
+            skillsToRemove.add(ascendedClassSkill.getSkillName());
+        }
+        return skillsToRemove;
     }
 
     @Override
