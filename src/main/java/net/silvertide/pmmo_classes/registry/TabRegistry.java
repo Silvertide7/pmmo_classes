@@ -28,7 +28,7 @@ public class TabRegistry {
                     .displayItems((displayParameters, output) -> {
 
                         List<String> warriorClassSkills = ClassUtil.getWarriorClassSkills();
-                        addSkillBook(output, "Warrior's", warriorClassSkills, 1L, -1,"red", "gold");
+                        addSkillBook(output, "Warrior's", warriorClassSkills, 1L, -1,"red", "iron");
                         addSkillBook(output, "Warrior's", warriorClassSkills, 2L, -1,"red", "gold");
                         addSkillBook(output, "Warrior's", warriorClassSkills, 3L, -1,"red", "emerald");
                         addSkillBook(output, "Warrior's", warriorClassSkills, 4L, -1,"red", "diamond");
@@ -46,10 +46,10 @@ public class TabRegistry {
                         addSkillBook(output, "Diamond Mage's", mageClassSkills, 4L, -1,"purple", "diamond");
 
                         List<String> expertClassSkills = ClassUtil.getExpertClassSkills();
-                        addSkillBook(output, "Iron Expert's", expertClassSkills, 1L, -1,"green", "iron");
-                        addSkillBook(output, "Gold Expert's", expertClassSkills, 2L, -1,"green", "gold");
-                        addSkillBook(output, "Emerald Expert's", expertClassSkills, 3L, -1,"green", "emerald");
-                        addSkillBook(output, "Diamond Expert's", expertClassSkills, 4L, -1,"green", "diamond");
+                        addSkillBook(output, "Iron Expert's", expertClassSkills, 1L, -1,"teal", "iron");
+                        addSkillBook(output, "Gold Expert's", expertClassSkills, 2L, -1,"teal", "gold");
+                        addSkillBook(output, "Emerald Expert's", expertClassSkills, 3L, -1,"teal", "emerald");
+                        addSkillBook(output, "Diamond Expert's", expertClassSkills, 4L, -1,"teal", "diamond");
                     })
                     .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
                     .build());

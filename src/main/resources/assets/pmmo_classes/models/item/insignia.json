@@ -4,27 +4,27 @@
     "layer0": "pmmo_classes:item/insignia_red"
   },
   "overrides": [
-    { "predicate": { "pmmo_classes:configuration": 2 }, "model": "pmmo_classes:item/insignia_green" },
+    { "predicate": { "pmmo_classes:configuration": 2 }, "model": "pmmo_classes:item/insignia_teal" },
     { "predicate": { "pmmo_classes:configuration": 3 }, "model": "pmmo_classes:item/insignia_purple" },
     { "predicate": { "pmmo_classes:configuration": 4 }, "model": "pmmo_classes:item/insignia_white" },
 
     { "predicate": { "pmmo_classes:configuration": 21 }, "model": "pmmo_classes:item/insignia_red_iron" },
-    { "predicate": { "pmmo_classes:configuration": 22 }, "model": "pmmo_classes:item/insignia_green_iron" },
+    { "predicate": { "pmmo_classes:configuration": 22 }, "model": "pmmo_classes:item/insignia_teal_iron" },
     { "predicate": { "pmmo_classes:configuration": 23 }, "model": "pmmo_classes:item/insignia_purple_iron" },
     { "predicate": { "pmmo_classes:configuration": 24 }, "model": "pmmo_classes:item/insignia_white_iron" },
 
     { "predicate": { "pmmo_classes:configuration": 41 }, "model": "pmmo_classes:item/insignia_red_gold" },
-    { "predicate": { "pmmo_classes:configuration": 42 }, "model": "pmmo_classes:item/insignia_green_gold" },
+    { "predicate": { "pmmo_classes:configuration": 42 }, "model": "pmmo_classes:item/insignia_teal_gold" },
     { "predicate": { "pmmo_classes:configuration": 43 }, "model": "pmmo_classes:item/insignia_purple_gold" },
     { "predicate": { "pmmo_classes:configuration": 44 }, "model": "pmmo_classes:item/insignia_white_gold" },
 
     { "predicate": { "pmmo_classes:configuration": 61 }, "model": "pmmo_classes:item/insignia_red_emerald" },
-    { "predicate": { "pmmo_classes:configuration": 62 }, "model": "pmmo_classes:item/insignia_green_emerald" },
+    { "predicate": { "pmmo_classes:configuration": 62 }, "model": "pmmo_classes:item/insignia_teal_emerald" },
     { "predicate": { "pmmo_classes:configuration": 63 }, "model": "pmmo_classes:item/insignia_purple_emerald" },
     { "predicate": { "pmmo_classes:configuration": 64 }, "model": "pmmo_classes:item/insignia_white_emerald" },
 
     { "predicate": { "pmmo_classes:configuration": 81 }, "model": "pmmo_classes:item/insignia_red_diamond" },
-    { "predicate": { "pmmo_classes:configuration": 82 }, "model": "pmmo_classes:item/insignia_green_diamond" },
+    { "predicate": { "pmmo_classes:configuration": 82 }, "model": "pmmo_classes:item/insignia_teal_diamond" },
     { "predicate": { "pmmo_classes:configuration": 83 }, "model": "pmmo_classes:item/insignia_purple_diamond" },
     { "predicate": { "pmmo_classes:configuration": 84 }, "model": "pmmo_classes:item/insignia_white_diamond" }
   ]
