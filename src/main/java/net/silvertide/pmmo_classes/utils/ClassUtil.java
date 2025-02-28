@@ -3,10 +3,9 @@ package net.silvertide.pmmo_classes.utils;
 import net.silvertide.pmmo_classes.data.AscendedClassSkill;
 import net.silvertide.pmmo_classes.data.PrimaryClassSkill;
 import net.silvertide.pmmo_classes.data.SubClassSkill;
+import org.checkerframework.checker.units.qual.A;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public final class ClassUtil {
     private ClassUtil() {}
@@ -70,5 +69,12 @@ public final class ClassUtil {
         mageSkills.add(PrimaryClassSkill.WARLOCK.getSkillName());
         mageSkills.add(PrimaryClassSkill.WIZARD.getSkillName());
         return mageSkills;
+    }
+
+    public static List<String> getSubClassSkills(PrimaryClassSkill primaryClassSkill) {
+        return Arrays.stream(SubClassSkill.values())
+            .filter(subClassSkill -> subClassSkill.getParentClass().equals(primaryClassSkill))
+            .map(SubClassSkill::getSkillName)
+            .toList();
     }
 }
