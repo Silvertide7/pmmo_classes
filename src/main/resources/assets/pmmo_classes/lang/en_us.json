@@ -1,13 +1,6 @@
 {
   "key.categories.pmmo_classes": "PMMO Classes",
   "key.pmmo_classes.useOpenManageClassesKey": "Open Classes Screen",
-
-  "item.pmmo_classes.insignia": "Insignia",
-  "item.pmmo_classes.insignia_iron": "Iron Insignia",
-  "item.pmmo_classes.insignia_gold": "Golden Insignia",
-  "item.pmmo_classes.insignia_emerald": "Emerald Insignia",
-  "item.pmmo_classes.insignia_diamond": "Diamond Insignia",
-
   "creative_tab.pmmo_classes.classes": "PMMO Classes",
 
   "screen.text.pmmo_classes.confirmation.delete_text": "Are you sure you want to remove the class %1$s?",
@@ -34,6 +27,39 @@
 
   "pmmo_classes.message.remove_classes": "You have lost the classes %1$s",
 
+  "pmmo_classes.insignia.iron.warrior": "Iron Warrior's Insignia",
+  "pmmo_classes.insignia.gold.warrior": "Golden Warrior's Insignia",
+  "pmmo_classes.insignia.emerald.warrior": "Emerald Warrior's Insignia",
+  "pmmo_classes.insignia.diamond.warrior": "Diamond Warrior's Insignia",
+
+  "pmmo_classes.insignia.iron.priest": "Iron Priest's Insignia",
+  "pmmo_classes.insignia.gold.priest": "Golden Priest's Insignia",
+  "pmmo_classes.insignia.emerald.priest": "Emerald Priest's Insignia",
+  "pmmo_classes.insignia.diamond.priest": "Diamond Priest's Insignia",
+
+  "pmmo_classes.insignia.iron.mage": "Iron Mage's Insignia",
+  "pmmo_classes.insignia.gold.mage": "Golden Mage's Insignia",
+  "pmmo_classes.insignia.emerald.mage": "Emerald Mage's Insignia",
+  "pmmo_classes.insignia.diamond.mage": "Diamond Mage's Insignia",
+
+  "pmmo_classes.insignia.iron.expert": "Iron Expert's Insignia",
+  "pmmo_classes.insignia.gold.expert": "Golden Expert's Insignia",
+  "pmmo_classes.insignia.emerald.expert": "Emerald Expert's Insignia",
+  "pmmo_classes.insignia.diamond.expert": "Diamond Expert's Insignia",
+
+  "pmmo_classes.insignia.plain.barbarian": "Barbarian's Insignia",
+
   "pmmo.artificer": "Artificer",
-  "pmmo.barbarian": "Barbarian"
+  "pmmo.barbarian": "Barbarian",
+  "pmmo.bard": "Bard",
+  "pmmo.cleric": "Cleric",
+  "pmmo.druid": "Druid",
+  "pmmo.fighter": "Fighter",
+  "pmmo.monk": "Monk",
+  "pmmo.paladin": "Paladin",
+  "pmmo.ranger": "Ranger",
+  "pmmo.rogue": "Rogue",
+  "pmmo.sorcerer": "Sorcerer",
+  "pmmo.warlock": "Warlock",
+  "pmmo.wizard": "Wizard"
 }

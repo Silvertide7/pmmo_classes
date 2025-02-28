@@ -1,5 +1,6 @@
 package net.silvertide.pmmo_classes.items;
 
+import io.netty.util.internal.StringUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -87,15 +88,14 @@ public class InsigniaItem extends Item {
 //        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
 //    }
 //
+
     @Override
     public String getDescriptionId(ItemStack stack) {
-        return DataComponentUtil.getInsigniaData(stack).map(skillBookData -> switch(skillBookData.getRank()) {
-            case PLAIN -> super.getDescriptionId(stack);
-            case IRON -> "item.pmmo_classes.insignia_iron";
-            case GOLD -> "item.pmmo_classes.insignia_gold";
-            case EMERALD -> "item.pmmo_classes.insignia_emerald";
-            case DIAMOND -> "item.pmmo_classes.insignia_diamond";
-            case null -> super.getDescriptionId(stack);
+        return DataComponentUtil.getInsigniaData(stack).map(insigniaData ->  {
+            if(!StringUtil.isNullOrEmpty(insigniaData.name())) {
+                return insigniaData.name();
+            }
+            return super.getDescriptionId(stack);
         }).orElse(super.getDescriptionId(stack));
     }
 }

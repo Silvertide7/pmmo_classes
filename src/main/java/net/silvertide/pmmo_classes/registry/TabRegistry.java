@@ -9,6 +9,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silvertide.pmmo_classes.PMMOClasses;
+import net.silvertide.pmmo_classes.data.ClassGroup;
 import net.silvertide.pmmo_classes.data.PrimaryClassSkill;
 import net.silvertide.pmmo_classes.utils.ClassUtil;
 import net.silvertide.pmmo_classes.utils.DataComponentUtil;
@@ -29,32 +30,32 @@ public class TabRegistry {
                     .displayItems((displayParameters, output) -> {
 
                         // Setup Class Group Items
-                        List<String> warriorClassSkills = ClassUtil.getWarriorClassSkills();
-                        addInsignia(output, "Warrior's", warriorClassSkills, 1L, -1,"red", "iron");
-                        addInsignia(output, "Warrior's", warriorClassSkills, 2L, -1,"red", "gold");
-                        addInsignia(output, "Warrior's", warriorClassSkills, 3L, -1,"red", "emerald");
-                        addInsignia(output, "Warrior's", warriorClassSkills, 4L, -1,"red", "diamond");
+                        List<String> warriorClassSkills = ClassUtil.getPrimaryClassSkills(ClassGroup.WARRIOR);
+                        addInsignia(output, "pmmo_classes.insignia.iron.warrior", warriorClassSkills, 1L, -1,"red", "iron");
+                        addInsignia(output, "pmmo_classes.insignia.gold.warrior", warriorClassSkills, 2L, -1,"red", "gold");
+                        addInsignia(output, "pmmo_classes.insignia.emerald.warrior", warriorClassSkills, 3L, -1,"red", "emerald");
+                        addInsignia(output, "pmmo_classes.insignia.diamond.warrior", warriorClassSkills, 4L, -1,"red", "diamond");
 
-                        List<String> priestClassSkills = ClassUtil.getPriestClassSkills();
-                        addInsignia(output, "Priest's", priestClassSkills, 1L,  -1,"white", "iron");
-                        addInsignia(output, "Priest's", priestClassSkills, 2L, -1,"white", "gold");
-                        addInsignia(output, "Priest's", priestClassSkills, 3L, -1,"white", "emerald");
-                        addInsignia(output, "Priest's", priestClassSkills, 4L, -1,"white", "diamond");
+                        List<String> priestClassSkills = ClassUtil.getPrimaryClassSkills(ClassGroup.PRIEST);
+                        addInsignia(output, "pmmo_classes.insignia.iron.priest", priestClassSkills, 1L,  -1,"white", "iron");
+                        addInsignia(output, "pmmo_classes.insignia.gold.priest", priestClassSkills, 2L, -1,"white", "gold");
+                        addInsignia(output, "pmmo_classes.insignia.emerald.priest", priestClassSkills, 3L, -1,"white", "emerald");
+                        addInsignia(output, "pmmo_classes.insignia.diamond.priest", priestClassSkills, 4L, -1,"white", "diamond");
 
-                        List<String> mageClassSkills = ClassUtil.getMageClassSkills();
-                        addInsignia(output, "Iron Mage's", mageClassSkills, 1L, -1,"purple", "iron");
-                        addInsignia(output, "Gold Mage's", mageClassSkills, 2L, -1,"purple", "gold");
-                        addInsignia(output, "Emerald Mage's", mageClassSkills, 3L, -1,"purple", "emerald");
-                        addInsignia(output, "Diamond Mage's", mageClassSkills, 4L, -1,"purple", "diamond");
+                        List<String> mageClassSkills = ClassUtil.getPrimaryClassSkills(ClassGroup.MAGE);
+                        addInsignia(output, "pmmo_classes.insignia.iron.mage", mageClassSkills, 1L, -1,"purple", "iron");
+                        addInsignia(output, "pmmo_classes.insignia.gold.mage", mageClassSkills, 2L, -1,"purple", "gold");
+                        addInsignia(output, "pmmo_classes.insignia.emerald.mage", mageClassSkills, 3L, -1,"purple", "emerald");
+                        addInsignia(output, "pmmo_classes.insignia.diamond.mage", mageClassSkills, 4L, -1,"purple", "diamond");
 
-                        List<String> expertClassSkills = ClassUtil.getExpertClassSkills();
-                        addInsignia(output, "Iron Expert's", expertClassSkills, 1L, -1,"teal", "iron");
-                        addInsignia(output, "Gold Expert's", expertClassSkills, 2L, -1,"teal", "gold");
-                        addInsignia(output, "Emerald Expert's", expertClassSkills, 3L, -1,"teal", "emerald");
-                        addInsignia(output, "Diamond Expert's", expertClassSkills, 4L, -1,"teal", "diamond");
+                        List<String> expertClassSkills = ClassUtil.getPrimaryClassSkills(ClassGroup.EXPERT);
+                        addInsignia(output, "pmmo_classes.insignia.iron.expert", expertClassSkills, 1L, -1,"teal", "iron");
+                        addInsignia(output, "pmmo_classes.insignia.gold.expert", expertClassSkills, 2L, -1,"teal", "gold");
+                        addInsignia(output, "pmmo_classes.insignia.emerald.expert", expertClassSkills, 3L, -1,"teal", "emerald");
+                        addInsignia(output, "pmmo_classes.insignia.diamond.expert", expertClassSkills, 4L, -1,"teal", "diamond");
 
                         // Add SubClasses
-                        addInsignia(output, "Barbarian's", ClassUtil.getSubClassSkills(PrimaryClassSkill.BARBARIAN), 1L, -1, "red", "plain");
+                        addInsignia(output, "pmmo_classes.insignia.plain.barbarian", ClassUtil.getSubClassSkills(PrimaryClassSkill.BARBARIAN), 1L, -1, "red", "plain");
 
                     })
                     .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
