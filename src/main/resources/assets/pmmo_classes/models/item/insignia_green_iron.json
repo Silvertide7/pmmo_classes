@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "pmmo_classes:item/insignia_green_iron"
+  }
+}

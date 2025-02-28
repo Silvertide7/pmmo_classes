@@ -1,9 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "pmmo_classes:item/skill_book_blue"
-  },
-  "overrides": [
-    { "predicate": { "pmmo_classes:configuration": 2 }, "model": "pmmo_classes:item/skill_book_blue_gold" }
-  ]
-}

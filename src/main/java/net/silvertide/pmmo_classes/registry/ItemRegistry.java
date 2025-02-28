@@ -9,10 +9,10 @@ import net.silvertide.pmmo_classes.PMMOClasses;
 import net.silvertide.pmmo_classes.items.InsigniaItem;
 
 public class ItemRegistry {
-//    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, PMMOClasses.MOD_ID);
-//    public static void register(IEventBus eventBus) {
-//        ITEMS.register(eventBus);
-//    }
-//
-//    public static DeferredHolder<Item, Item> INSIGNIA = ITEMS.register("insignia", InsigniaItem::new);
+    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, PMMOClasses.MOD_ID);
+    public static void register(IEventBus eventBus) {
+        ITEMS.register(eventBus);
+    }
+
+    public static DeferredHolder<Item, Item> INSIGNIA = ITEMS.register("insignia", InsigniaItem::new);
 }
