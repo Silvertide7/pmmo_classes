@@ -12,7 +12,6 @@ import net.silvertide.pmmo_classes.PMMOClasses;
 import net.silvertide.pmmo_classes.data.ClassGroup;
 import net.silvertide.pmmo_classes.data.PrimaryClassSkill;
 import net.silvertide.pmmo_classes.utils.ClassUtil;
-import net.silvertide.pmmo_classes.utils.DataComponentUtil;
 
 import java.util.List;
 
@@ -55,7 +54,19 @@ public class TabRegistry {
                         addInsignia(output, "pmmo_classes.insignia.diamond.expert", expertClassSkills, 4L, -1,"teal", "diamond");
 
                         // Add SubClasses
-                        addInsignia(output, "pmmo_classes.insignia.plain.barbarian", ClassUtil.getSubClassSkills(PrimaryClassSkill.BARBARIAN), 1L, -1, "red", "plain");
+                        addInsignia(output, "pmmo_classes.insignia.plain.artificer", ClassUtil.getSubClassSkills(PrimaryClassSkill.ARTIFICER), 1L, -1, "teal", "plain");
+                        addInsignia(output, "pmmo_classes.insignia.plain.barbarian", ClassUtil.getSubClassSkills(PrimaryClassSkill.BARBARIAN), 1L, -1, "orange", "plain");
+                        addInsignia(output, "pmmo_classes.insignia.plain.bard", ClassUtil.getSubClassSkills(PrimaryClassSkill.BARD), 1L, -1, "light_purple", "plain");
+                        addInsignia(output, "pmmo_classes.insignia.plain.cleric", ClassUtil.getSubClassSkills(PrimaryClassSkill.CLERIC), 1L, -1, "white", "plain");
+                        addInsignia(output, "pmmo_classes.insignia.plain.druid", ClassUtil.getSubClassSkills(PrimaryClassSkill.DRUID), 1L, -1, "green", "plain");
+                        addInsignia(output, "pmmo_classes.insignia.plain.fighter", ClassUtil.getSubClassSkills(PrimaryClassSkill.FIGHTER), 1L, -1, "red", "plain");
+                        addInsignia(output, "pmmo_classes.insignia.plain.monk", ClassUtil.getSubClassSkills(PrimaryClassSkill.MONK), 1L, -1, "blue", "plain");
+                        addInsignia(output, "pmmo_classes.insignia.plain.paladin", ClassUtil.getSubClassSkills(PrimaryClassSkill.PALADIN), 1L, -1, "yellow", "plain");
+                        addInsignia(output, "pmmo_classes.insignia.plain.ranger", ClassUtil.getSubClassSkills(PrimaryClassSkill.RANGER), 1L, -1, "light_green", "plain");
+                        addInsignia(output, "pmmo_classes.insignia.plain.rogue", ClassUtil.getSubClassSkills(PrimaryClassSkill.ROGUE), 1L, -1, "black", "plain");
+                        addInsignia(output, "pmmo_classes.insignia.plain.sorcerer", ClassUtil.getSubClassSkills(PrimaryClassSkill.SORCERER), 1L, -1, "pink", "plain");
+                        addInsignia(output, "pmmo_classes.insignia.plain.warlock", ClassUtil.getSubClassSkills(PrimaryClassSkill.WARLOCK), 1L, -1, "purple", "plain");
+                        addInsignia(output, "pmmo_classes.insignia.plain.wizard", ClassUtil.getSubClassSkills(PrimaryClassSkill.WIZARD), 1L, -1, "light_blue", "plain");
 
                     })
                     .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)

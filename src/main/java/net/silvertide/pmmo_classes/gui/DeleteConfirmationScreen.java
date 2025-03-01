@@ -10,7 +10,6 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.silvertide.pmmo_classes.PMMOClasses;
 import net.silvertide.pmmo_classes.data.PrimaryClassSkill;
 import net.silvertide.pmmo_classes.network.server_packets.SB_RemoveClassSkill;
-import net.silvertide.pmmo_classes.utils.ClassUtil;
 import net.silvertide.pmmo_classes.utils.GUIUtil;
 
 @OnlyIn(Dist.CLIENT)
