@@ -1,7 +1,5 @@
 package net.silvertide.pmmo_classes.network.server_packets;
 
-import com.mojang.brigadier.arguments.StringArgumentType;
-import harmonised.pmmo.api.APIUtils;
 import harmonised.pmmo.core.Core;
 import harmonised.pmmo.core.IDataStorage;
 import harmonised.pmmo.network.Networking;
@@ -23,7 +21,6 @@ import net.silvertide.pmmo_classes.data.PrimaryClassSkill;
 import net.silvertide.pmmo_classes.data.SubClassSkill;
 import net.silvertide.pmmo_classes.network.client_packets.CB_ClassRemoved;
 import net.silvertide.pmmo_classes.utils.GUIUtil;
-import net.silvertide.pmmo_classes.utils.PlayerMessenger;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
