@@ -91,4 +91,23 @@ public class PlayerClassProfile {
     public void setAscendedClassSkill(AscendedClassSkill ascendedClassSkill) {
         this.ascendedClassSkill = ascendedClassSkill;
     }
+
+    public AddClassSkillResult canAddClassSkill(String skill, int level) {
+        Optional<PrimaryClassSkill> primaryClassSkill= ClassUtil.getPrimaryClass(skill);
+        if(primaryClassSkill.isPresent()) {
+//            if(this.primaryClassMap.size() )
+        }
+
+        Optional<SubClassSkill> subClassSkill= ClassUtil.getSubClass(skill);
+        if(subClassSkill.isPresent()) {
+
+        }
+
+        Optional<AscendedClassSkill> ascendedClassSkill= ClassUtil.getAscendedClass(skill);
+        if(ascendedClassSkill.isPresent()) {
+
+        }
+
+        return new AddClassSkillResult(false, "");
+    }
 }

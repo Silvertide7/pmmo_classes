@@ -73,5 +73,7 @@
   "pmmo.rogue": "Rogue",
   "pmmo.sorcerer": "Sorcerer",
   "pmmo.warlock": "Warlock",
-  "pmmo.wizard": "Wizard"
+  "pmmo.wizard": "Wizard",
+
+  "pmmo_skill_books.screen.grant_skill.choose_skill": "Choose a Class"
 }
