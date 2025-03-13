@@ -7,20 +7,15 @@
   "screen.button.pmmo_classes.confirmation.confirm": "§2Confirm§r",
   "screen.button.pmmo_classes.confirmation.cancel": "§cCancel§r",
 
+  "pmmo_classes.use_class_grant.message.class_capacity_reached": "You have the max number of classes.",
+  "pmmo_classes.use_class_grant.message.below_level_req": "You must reach level %1$s in %1$s before you can learn another class.",
+  "pmmo_classes.use_class_grant.message.only_one_ascended_class": "Only one ascended class is allowed.",
+  "pmmo_classes.use_class_grant.message.ascended_class_doesnt_match": "You don't have the correct primary classes for this ascended class.",
+  "pmmo_classes.use_class_grant.message.no_parent_class": "You must have the class %1$s to learn %2$s.",
+  "pmmo_classes.use_class_grant.message.sub_level_req_not_met": "%1$s must be level %2$s to learn the subclass %3$s.",
+  "pmmo_classes.use_class_grant.message.fall_through": "You cannot learn this class.",
+
   "screen.text.pmmo_classes.manage.level": "Lv %1$s",
-
-  "pmmo_classes.message.no_skills_specified": "Insignia has no skills specified (max of 4).",
-  "pmmo_classes.message.value_zero_or_less": "Skill value must be greater than 0.",
-  "pmmo_classes.message.no_application_type": "Insignia has no application type [add, set].",
-  "pmmo_classes.message.wrong_application_type": "Application type must be level or xp.",
-  "pmmo_classes.message.no_data_found": "No insignia data found.",
-  "pmmo_classes.message.max_level": "Skill is at max level.",
-  "pmmo_classes.message.use_book_error": "Something went wrong.",
-
-  "pmmo_classes.message.add_level_effect": "+%1$s %2$s Level",
-  "pmmo_classes.message.add_levels_effect": "+%1$s %2$s Levels",
-  "pmmo_classes.message.set_effect": "+%1$s %2$s Experience",
-  "pmmo_classes.message.wrong_effect": "Invalid application type, must be set or add.",
 
   "pmmo_classes.screen.manage_classes.title": "Class",
   "pmmo_classes.screen.manage_classes.no_classes_text": "No classes learned.",

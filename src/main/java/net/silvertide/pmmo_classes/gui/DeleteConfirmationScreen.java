@@ -18,10 +18,10 @@ public class DeleteConfirmationScreen extends Screen {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(PMMOClasses.MOD_ID, "textures/gui/gui_delete_class_confirmation.png");
 //    private static final ResourceLocation CLASS_ICON_TEXTURE = ResourceLocation.fromNamespaceAndPath(PMMOClasses.MOD_ID, "textures/gui/class_icons.png");
     private static final int SCREEN_WIDTH = 146;
-    private static final int SCREEN_HEIGHT = 81;
+    private static final int SCREEN_HEIGHT = 64;
 
     // BUTTON CONSTANTS
-    private static final int BUTTON_Y = 58;
+    private static final int BUTTON_Y = 46;
     private static final int BUTTON_WIDTH = 50;
     private static final int BUTTON_HEIGHT = 12;
 

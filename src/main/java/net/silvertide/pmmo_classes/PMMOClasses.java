@@ -11,7 +11,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.silvertide.pmmo_classes.config.ServerConfigs;
+import net.silvertide.pmmo_classes.config.ServerConfig;
 import net.silvertide.pmmo_classes.registry.ItemRegistry;
 import net.silvertide.pmmo_classes.registry.TabRegistry;
 import net.silvertide.pmmo_skill_books.registry.ItemPropertyRegistry;
@@ -27,7 +27,7 @@ public class PMMOClasses
     {
         ItemRegistry.register(modEventBus);
         TabRegistry.register(modEventBus);
-        modContainer.registerConfig(ModConfig.Type.SERVER, ServerConfigs.SPEC, String.format("%s-server.toml", MOD_ID));
+        modContainer.registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC, String.format("%s-server.toml", MOD_ID));
     }
 
     @EventBusSubscriber(modid = MOD_ID, bus= EventBusSubscriber.Bus.MOD, value=Dist.CLIENT)

@@ -1,4 +1,5 @@
 package net.silvertide.pmmo_classes.data;
 
-public record AddClassSkillResult(boolean success, String message) {
-}
+import net.minecraft.network.chat.Component;
+
+public record AddClassSkillResult(boolean success, Component messageComponent) {}

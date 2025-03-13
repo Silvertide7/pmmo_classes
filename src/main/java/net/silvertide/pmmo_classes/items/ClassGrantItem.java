@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.silvertide.pmmo_classes.data.PlayerClassProfile;
+import net.silvertide.pmmo_skill_books.data.ApplicationType;
 import net.silvertide.pmmo_skill_books.items.SkillGrantItem;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,6 +34,11 @@ public class ClassGrantItem extends SkillGrantItem {
         }
         return InteractionResultHolder.fail(stack);
 
+    }
+
+    @Override
+    public void applyEffects(String skill, ApplicationType applicationType, Long applicationValue, int experienceCost, ServerPlayer serverPlayer, ItemStack stack) {
+        super.applyEffects(skill, applicationType, applicationValue, experienceCost, serverPlayer, stack);
     }
 
     @Override
