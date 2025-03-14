@@ -8,12 +8,20 @@
   "screen.button.pmmo_classes.confirmation.cancel": "§cCancel§r",
 
   "pmmo_classes.use_class_grant.message.class_capacity_reached": "You have the max number of classes.",
-  "pmmo_classes.use_class_grant.message.below_level_req": "You must reach level %1$s in %1$s before you can learn another class.",
+  "pmmo_classes.use_class_grant.message.below_level_req": "You must reach level %1$s in %2$s before you can learn another class.",
   "pmmo_classes.use_class_grant.message.only_one_ascended_class": "Only one ascended class is allowed.",
   "pmmo_classes.use_class_grant.message.ascended_class_doesnt_match": "You don't have the correct primary classes for this ascended class.",
   "pmmo_classes.use_class_grant.message.no_parent_class": "You must have the class %1$s to learn %2$s.",
   "pmmo_classes.use_class_grant.message.sub_level_req_not_met": "%1$s must be level %2$s to learn the subclass %3$s.",
+  "pmmo_classes.use_class_grant.message.above_max_level": "Classes cannot be higher than level %1$s.",
+  "pmmo_classes.use_class_grant.message.level_one_req": "You must first become a level 1 %1$s before you can advance.",
+  "pmmo_classes.use_class_grant.message.invalid_level": "You can only advance to %1$s level %2$s.",
+  "pmmo_classes.use_class_grant.message.max_level_reached": "You are a max level %1$s",
   "pmmo_classes.use_class_grant.message.fall_through": "You cannot learn this class.",
+
+  "pmmo_classes.use_class_grant.message.primary_success": "You have gained the class %1$s level %2$s.",
+  "pmmo_classes.use_class_grant.message.sub_success": "You have gained the %1$s subclass %2$s.",
+  "pmmo_classes.use_class_grant.message.ascended_success": "You have gained the ascended class %1$s.",
 
   "screen.text.pmmo_classes.manage.level": "Lv %1$s",
 

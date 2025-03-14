@@ -7,6 +7,6 @@ public interface IClassSkill {
     ClassType getClassType();
 
     default String getTranslatedSkillName() {
-        return Component.translatable("pmmo." + getSkillName()).toString();
+        return Component.translatable("pmmo." + getSkillName()).getString();
     }
 }

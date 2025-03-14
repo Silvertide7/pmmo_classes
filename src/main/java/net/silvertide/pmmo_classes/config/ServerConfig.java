@@ -21,7 +21,7 @@ public class ServerConfig {
         NUM_CLASSES_ALLOWED = BUILDER.worldRestart().defineInRange("numClassesAllowed", 2, 1, 2);
 
         BUILDER.comment("The highest level a class can reach.");
-        MAX_LEVEL_ALLOWED = BUILDER.worldRestart().defineInRange("maxLevelAllowed", 4, 1, 4);
+        MAX_LEVEL_ALLOWED = BUILDER.worldRestart().defineInRange("maxLevelAllowed", 4, 1, Integer.MAX_VALUE);
 
         BUILDER.comment("The level you must reach in your first primary class before you can take a second primary class.");
         BUILDER.comment("If this is set to three then once you reach level three in your first primary class you can learn a second class.");
