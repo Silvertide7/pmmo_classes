@@ -13,6 +13,8 @@
   "pmmo_classes.use_class_grant.message.ascended_class_doesnt_match": "You don't have the correct primary classes for this ascended class.",
   "pmmo_classes.use_class_grant.message.no_parent_class": "You must have the class %1$s to learn %2$s.",
   "pmmo_classes.use_class_grant.message.sub_level_req_not_met": "%1$s must be level %2$s to learn the subclass %3$s.",
+  "pmmo_classes.use_class_grant.message.duplicate_subclass": "You already have the subclass %1$s",
+  "pmmo_classes.use_class_grant.message.existing_subclass": "You already have a %1$s subclass, %2$s",
   "pmmo_classes.use_class_grant.message.above_max_level": "Classes cannot be higher than level %1$s.",
   "pmmo_classes.use_class_grant.message.level_one_req": "You must first become a level 1 %1$s before you can advance.",
   "pmmo_classes.use_class_grant.message.invalid_level": "You can only advance to %1$s level %2$s.",
@@ -29,6 +31,7 @@
   "pmmo_classes.screen.manage_classes.no_classes_text": "No classes learned.",
 
   "pmmo_classes.message.remove_classes": "You have lost the classes %1$s",
+  "pmmo_classes.message.gained_ascended_class": "You have gained the Ascended Class %1$s",
 
   "pmmo_classes.insignia.iron.warrior": "Iron Warrior's Insignia",
   "pmmo_classes.insignia.gold.warrior": "Golden Warrior's Insignia",

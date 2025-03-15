@@ -1,6 +1,5 @@
 package net.silvertide.pmmo_classes.data;
 
-import harmonised.pmmo.api.APIUtils;
 import harmonised.pmmo.core.Core;
 import harmonised.pmmo.core.IDataStorage;
 import harmonised.pmmo.storage.Experience;
@@ -10,7 +9,6 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.fml.LogicalSide;
 import net.silvertide.pmmo_classes.config.ServerConfig;
 import net.silvertide.pmmo_classes.utils.ClassUtil;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.*;
 
@@ -54,7 +52,7 @@ public class PlayerClassProfile {
     public Optional<Map.Entry<PrimaryClassSkill, Experience>> findMatchingPrimaryClass(SubClassSkill subClassSkill) {
         return this.primaryClassMap.entrySet().stream().filter(entry ->
                 entry.getValue().getLevel().getLevel() >= 1 &&
-                        subClassSkill.getParentClass().equals(entry.getKey())
+                        subClassSkill.getParentClass() == entry.getKey()
         ).findFirst();
     }
 
@@ -104,79 +102,101 @@ public class PlayerClassProfile {
     }
 
     public AddClassSkillResult canAddClassSkill(String skill, Long level) {
-        // If adding a primary class, make sure you don't already have the maximum number of primary classes and that
-        // you meet the level requirement to take a second class. Also make sure the level is not
+        // If the skill is a primary class, validate it
         Optional<PrimaryClassSkill> primaryClassSkill = ClassUtil.getPrimaryClass(skill);
         if(primaryClassSkill.isPresent()) {
-            // Make sure you can add a new class of higher level
-            PrimaryClassSkill primaryClassSkillToAdd = primaryClassSkill.get();
-
-            Optional<Map.Entry<PrimaryClassSkill, Experience>> matchingEntry = this.primaryClassMap.entrySet()
-                    .stream()
-                    .filter(primaryClassSkillExperienceEntry -> primaryClassSkillExperienceEntry.getKey() == primaryClassSkillToAdd).findFirst();
-
-            // If the level you are trying to obtain is higher than the max allowed, deny it no matter what skill it is. If it passes this then it is a valid level.
-            if(level > ServerConfig.MAX_LEVEL_ALLOWED.get()) {
-                return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.above_max_level", ServerConfig.MAX_LEVEL_ALLOWED.get()));
-            }
-
-            // If you already have this class check if you are gaining exactly 1 level.
-            if(matchingEntry.isPresent()) {
-                if(level != matchingEntry.get().getValue().getLevel().getLevel() + 1) {
-                    if(matchingEntry.get().getValue().getLevel().getLevel() == ServerConfig.MAX_LEVEL_ALLOWED.get()) {
-                        return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.max_level_reached", primaryClassSkillToAdd.getTranslatedSkillName()));
-                    }
-                    return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.invalid_level", primaryClassSkillToAdd.getTranslatedSkillName(), matchingEntry.get().getValue().getLevel().getLevel() + 1));
-                }
-                return new AddClassSkillResult(true, Component.translatable("pmmo_classes.use_class_grant.message.primary_success", primaryClassSkillToAdd.getTranslatedSkillName(), level));
-            }
-
-            // If we made it this far we know this is a brand new class, not an existing one.
-            // Check to make sure we aren't going over the number of classes allowed.
-            if(this.primaryClassMap.size() >= ServerConfig.NUM_CLASSES_ALLOWED.get()) {
-                return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.class_capacity_reached"));
-            }
-
-            // If there is exactly 1 class then we need to check if we have reached the level requirement to gain another class.
-            if(this.primaryClassMap.size() == 1) {
-                Map.Entry<PrimaryClassSkill, Experience> entry = this.primaryClassMap.entrySet().iterator().next();
-                if(entry.getKey() != primaryClassSkillToAdd && entry.getValue().getLevel().getLevel() < ServerConfig.SECOND_CLASS_LEVEL_REQ.get()) {
-                    return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.below_level_req", ServerConfig.SECOND_CLASS_LEVEL_REQ.get(), entry.getKey().getTranslatedSkillName()));
-                }
-            }
-
-            // Make sure the new classes level is 1.
-            if(level != 1) {
-                return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.level_one_req", primaryClassSkillToAdd.getTranslatedSkillName()));
-            }
-
-            return new AddClassSkillResult(true, Component.translatable("pmmo_classes.use_class_grant.message.primary_success", primaryClassSkillToAdd.getTranslatedSkillName(), level));
+            return validatePrimaryClassSkill(primaryClassSkill.get(), level);
         }
 
-        // If adding a subclass, make sure you have the requisite primary class, it is of the required level, and you don't already have
-        // a subclass for that primary class.
+        // If the skill is a subclass, validate it
         Optional<SubClassSkill> subClassSkill = ClassUtil.getSubClass(skill);
         if(subClassSkill.isPresent()) {
-            SubClassSkill subClassSkillToAdd = subClassSkill.get();
-            Optional<Map.Entry<PrimaryClassSkill, Experience>> parentPrimaryClassEntry = findMatchingPrimaryClass(subClassSkillToAdd);
-            if(parentPrimaryClassEntry.isEmpty()) {
-                return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.no_parent_class", subClassSkillToAdd.getParentClass().getTranslatedSkillName(), subClassSkillToAdd.getTranslatedSkillName()));
-            } else {
-                if(parentPrimaryClassEntry.get().getValue().getLevel().getLevel() < ServerConfig.SUB_CLASS_LEVEL_REQ.get()) {
-                    return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.sub_level_req_not_met", parentPrimaryClassEntry.get().getKey().getTranslatedSkillName(), ServerConfig.SUB_CLASS_LEVEL_REQ.get(), subClassSkillToAdd.getTranslatedSkillName()));
-                }
-            }
-            return new AddClassSkillResult(true, Component.translatable("pmmo_classes.use_class_grant.message.sub_success", subClassSkillToAdd.getParentClass().getTranslatedSkillName(), subClassSkillToAdd.getTranslatedSkillName()));
+           return validateSubClassSkill(subClassSkill.get(), level);
         }
 
+        // If the skill is an ascended class, validate it
         Optional<AscendedClassSkill> ascendedClassSkill= ClassUtil.getAscendedClass(skill);
         if(ascendedClassSkill.isPresent()) {
-            if(this.ascendedClassSkill != null) {
-                return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.only_one_ascended_class"));
-            }
-            return new AddClassSkillResult(true, Component.translatable("pmmo_classes.use_class_grant.message.ascended_success"));
+            return validateAscendedClassSkill(ascendedClassSkill.get(), level);
         }
 
+        // If it was no valid classes then fail.
         return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.fall_through"));
     }
+
+    private AddClassSkillResult validatePrimaryClassSkill(PrimaryClassSkill primaryClassSkill, Long level) {
+        // If adding a primary class, make sure you don't already have the maximum number of primary classes and that
+        // you meet the level requirement to take a second class. Also make sure the level is not
+        Optional<Map.Entry<PrimaryClassSkill, Experience>> matchingEntry = this.primaryClassMap.entrySet()
+                .stream()
+                .filter(primaryClassSkillExperienceEntry -> primaryClassSkillExperienceEntry.getKey() == primaryClassSkill).findFirst();
+
+        // If the level you are trying to obtain is higher than the max allowed, deny it no matter what skill it is. If it passes this then it is a valid level.
+        if(level > ServerConfig.MAX_LEVEL_ALLOWED.get()) {
+            return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.above_max_level", ServerConfig.MAX_LEVEL_ALLOWED.get()));
+        }
+
+        // If you already have this class check if you are gaining exactly 1 level.
+        if(matchingEntry.isPresent()) {
+            if(level != matchingEntry.get().getValue().getLevel().getLevel() + 1) {
+                if(matchingEntry.get().getValue().getLevel().getLevel() == ServerConfig.MAX_LEVEL_ALLOWED.get()) {
+                    return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.max_level_reached", primaryClassSkill.getTranslatedSkillName()));
+                }
+                return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.invalid_level", primaryClassSkill.getTranslatedSkillName(), matchingEntry.get().getValue().getLevel().getLevel() + 1));
+            }
+            return new AddClassSkillResult(true, Component.translatable("pmmo_classes.use_class_grant.message.primary_success", primaryClassSkill.getTranslatedSkillName(), level));
+        }
+
+        // If we made it this far we know this is a brand new class, not an existing one.
+        // Check to make sure we aren't going over the number of classes allowed.
+        if(this.primaryClassMap.size() >= ServerConfig.NUM_CLASSES_ALLOWED.get()) {
+            return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.class_capacity_reached"));
+        }
+
+        // If there is exactly 1 class then we need to check if we have reached the level requirement to gain another class.
+        if(this.primaryClassMap.size() == 1) {
+            Map.Entry<PrimaryClassSkill, Experience> entry = this.primaryClassMap.entrySet().iterator().next();
+            if(entry.getKey() != primaryClassSkill && entry.getValue().getLevel().getLevel() < ServerConfig.SECOND_CLASS_LEVEL_REQ.get()) {
+                return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.below_level_req", ServerConfig.SECOND_CLASS_LEVEL_REQ.get(), entry.getKey().getTranslatedSkillName()));
+            }
+        }
+
+        // Make sure the new classes level is 1.
+        if(level != 1) {
+            return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.level_one_req", primaryClassSkill.getTranslatedSkillName()));
+        }
+
+        return new AddClassSkillResult(true, Component.translatable("pmmo_classes.use_class_grant.message.primary_success", primaryClassSkill.getTranslatedSkillName(), level));
+    }
+
+
+    private AddClassSkillResult validateSubClassSkill(SubClassSkill subClassSkill, Long level) {
+        // First lets see if we already have a subclass with this type. If so fail, you can't get it again.
+        Optional<Map.Entry<SubClassSkill, Experience>> matchingEntry = this.subClassMap.entrySet()
+                .stream()
+                .filter(subClassSkillEntry -> subClassSkillEntry.getKey() == subClassSkill).findFirst();
+        if(matchingEntry.isPresent()) {
+            return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.duplicate_subclass", subClassSkill.getTranslatedSkillName()));
+        }
+
+        // Check to make sure we have the primary class in order to take this subclass
+        Optional<Map.Entry<PrimaryClassSkill, Experience>> parentPrimaryClassEntry = findMatchingPrimaryClass(subClassSkill);
+        if(parentPrimaryClassEntry.isEmpty()) {
+            return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.no_parent_class", subClassSkill.getParentClass().getTranslatedSkillName(), subClassSkill.getTranslatedSkillName()));
+        }
+        // If we do, check to make sure that primary class has the required level before you take a subclass.
+        if(parentPrimaryClassEntry.get().getValue().getLevel().getLevel() < ServerConfig.SUB_CLASS_LEVEL_REQ.get()) {
+            return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.sub_level_req_not_met", parentPrimaryClassEntry.get().getKey().getTranslatedSkillName(), ServerConfig.SUB_CLASS_LEVEL_REQ.get(), subClassSkill.getTranslatedSkillName()));
+        }
+
+        return new AddClassSkillResult(true, Component.translatable("pmmo_classes.use_class_grant.message.sub_success", subClassSkill.getParentClass().getTranslatedSkillName(), subClassSkill.getTranslatedSkillName()));
+    }
+
+    private AddClassSkillResult validateAscendedClassSkill(AscendedClassSkill ascendedClassSkill, Long level) {
+        if(this.ascendedClassSkill != null) {
+            return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.only_one_ascended_class"));
+        }
+        return new AddClassSkillResult(true, Component.translatable("pmmo_classes.use_class_grant.message.ascended_success"));
+    }
+
 }

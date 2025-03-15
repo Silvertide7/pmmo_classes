@@ -118,7 +118,7 @@ public class ManageClassesScreen extends Screen {
 
             guiGraphics.blit(TEXTURE, ascendedCardX - 47, ascendedCardY - 10, 161, 27, 94, 21);
 
-            Component skillComponent = Component.literal(GUIUtil.prettifyEnum(this.classProfile.getAscendedClassSkill()));
+            Component skillComponent = Component.literal(this.classProfile.getAscendedClassSkill().getTranslatedSkillName());
             GUIUtil.drawScaledCenteredWordWrap(guiGraphics, 0.75F, this.font, skillComponent, ascendedCardX, ascendedCardY,100, 0xe6f8fa);
         }
     }
@@ -252,16 +252,14 @@ public class ManageClassesScreen extends Screen {
             int textOffsetY = 5;
             float textScale = 0.7F;
 
-            String primaryClassTitle = GUIUtil.prettifyEnum(this.primaryClassSkill);
-            GUIUtil.drawScaledString(guiGraphics, textScale, manageClassesScreen.font, primaryClassTitle, getCardStartX() + textOffsetX, getCardStartY() + textOffsetY, 0xFFFFFF);
+            GUIUtil.drawScaledString(guiGraphics, textScale, manageClassesScreen.font, this.primaryClassSkill.getTranslatedSkillName(), getCardStartX() + textOffsetX, getCardStartY() + textOffsetY, 0xFFFFFF);
 
             if(this.subClassSkill != null) {
                 int subClassTextOffsetX = 0;
                 int subClassTextOffsetY = 8;
                 float subClassTextScale = 0.5F;
 
-                String subClassTitle = GUIUtil.prettifyEnum(this.subClassSkill);
-                GUIUtil.drawScaledString(guiGraphics, subClassTextScale, manageClassesScreen.font, subClassTitle, getCardStartX() + textOffsetX + subClassTextOffsetX, getCardStartY() + textOffsetY + subClassTextOffsetY, 0xFFFFFF);
+                GUIUtil.drawScaledString(guiGraphics, subClassTextScale, manageClassesScreen.font, this.subClassSkill.getTranslatedSkillName(), getCardStartX() + textOffsetX + subClassTextOffsetX, getCardStartY() + textOffsetY + subClassTextOffsetY, 0xFFFFFF);
             }
         }
 

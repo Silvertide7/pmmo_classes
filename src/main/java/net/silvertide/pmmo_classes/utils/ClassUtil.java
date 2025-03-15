@@ -1,9 +1,6 @@
 package net.silvertide.pmmo_classes.utils;
 
-import net.silvertide.pmmo_classes.data.AscendedClassSkill;
-import net.silvertide.pmmo_classes.data.ClassGroup;
-import net.silvertide.pmmo_classes.data.PrimaryClassSkill;
-import net.silvertide.pmmo_classes.data.SubClassSkill;
+import net.silvertide.pmmo_classes.data.*;
 
 import java.util.*;
 
@@ -32,6 +29,25 @@ public final class ClassUtil {
         } catch(IllegalArgumentException e) {
             return Optional.empty();
         }
+    }
+
+    public static Optional<IClassSkill> getClassSkill(String skill) {
+        Optional<PrimaryClassSkill> primaryClassSkill = getPrimaryClass(skill);
+        if(primaryClassSkill.isPresent()) {
+            return Optional.of(primaryClassSkill.get());
+        }
+
+        Optional<SubClassSkill> subClassSkill = getSubClass(skill);
+        if(subClassSkill.isPresent()) {
+            return Optional.of(subClassSkill.get());
+        }
+
+        Optional<AscendedClassSkill> ascendedClassSkill = getAscendedClass(skill);
+        if(ascendedClassSkill.isPresent()) {
+            return Optional.of(ascendedClassSkill.get());
+        }
+
+        return Optional.empty();
     }
 
     public static String getSkillString(Enum<?> classSkill) {
