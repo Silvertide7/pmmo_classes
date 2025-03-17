@@ -1,7 +1,10 @@
 package net.silvertide.pmmo_classes.data;
 
+import harmonised.pmmo.api.APIUtils;
 import harmonised.pmmo.core.Core;
 import harmonised.pmmo.core.IDataStorage;
+import harmonised.pmmo.network.Networking;
+import harmonised.pmmo.network.clientpackets.CP_SyncData_ClearXp;
 import harmonised.pmmo.storage.Experience;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -9,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.fml.LogicalSide;
 import net.silvertide.pmmo_classes.config.ServerConfig;
 import net.silvertide.pmmo_classes.utils.ClassUtil;
+import net.silvertide.pmmo_classes.utils.PMMOUtil;
 
 import java.util.*;
 
@@ -18,6 +22,10 @@ public class PlayerClassProfile {
     private AscendedClassSkill ascendedClassSkill;
 
     public PlayerClassProfile(Player player) {
+        setupProfile(player);
+    }
+
+    private void setupProfile(Player player) {
         primaryClassMap = new EnumMap<>(PrimaryClassSkill.class);
         subClassMap = new EnumMap<>(SubClassSkill.class);
         ascendedClassSkill = null;
@@ -30,15 +38,19 @@ public class PlayerClassProfile {
 
             // Loop through all player skills and see if they are a primary class, sub class, or ascended class and store that data.
             xpMap.forEach((skillKey, experience) -> {
-                    ClassUtil.getPrimaryClass(skillKey).ifPresent(primaryClassSkill -> primaryClassMap.put(primaryClassSkill, experience));
-                    ClassUtil.getSubClass(skillKey).ifPresent(subClassSkill -> subClassMap.put(subClassSkill, experience));
+                        ClassUtil.getPrimaryClass(skillKey).ifPresent(primaryClassSkill -> primaryClassMap.put(primaryClassSkill, experience));
+                        ClassUtil.getSubClass(skillKey).ifPresent(subClassSkill -> subClassMap.put(subClassSkill, experience));
 
-                    if(ascendedClassSkill == null) {
-                        ClassUtil.getAscendedClass(skillKey).ifPresent(ascendedClass -> this.ascendedClassSkill = ascendedClass);
+                        if(ascendedClassSkill == null) {
+                            ClassUtil.getAscendedClass(skillKey).ifPresent(ascendedClass -> this.ascendedClassSkill = ascendedClass);
+                        }
                     }
-                }
             );
         }
+    }
+
+    public void refreshProfile(Player player) {
+        setupProfile(player);
     }
 
     // Returns a SubClassSkill if it exists and is >= level 1, and matches the passed PrimaryClassSkill.
@@ -81,25 +93,95 @@ public class PlayerClassProfile {
         return primaryClassMap;
     }
 
-    public void setPrimaryClassMap(Map<PrimaryClassSkill, Experience> primaryClassMap) {
-        this.primaryClassMap = primaryClassMap;
-    }
-
     public Map<SubClassSkill, Experience> getSubClassMap() {
         return subClassMap;
-    }
-
-    public void setSubClassMap(Map<SubClassSkill, Experience> subClassMap) {
-        this.subClassMap = subClassMap;
     }
 
     public AscendedClassSkill getAscendedClassSkill() {
         return ascendedClassSkill;
     }
 
-    public void setAscendedClassSkill(AscendedClassSkill ascendedClassSkill) {
-        this.ascendedClassSkill = ascendedClassSkill;
+    // Check if the player has more classes than is allowed. If so remove the excess classes.
+    public boolean checkAndUpdatePrimaryClasses(ServerPlayer serverPlayer) {
+        if(this.getPrimaryClassMap().size() > ServerConfig.NUM_CLASSES_ALLOWED.get()) {
+            List<Map.Entry<PrimaryClassSkill, Experience>> sortedEntries = this.getPrimaryClassMap().entrySet()
+                    .stream()
+                    .sorted(Comparator.comparingLong(entry -> entry.getValue().getLevel().getLevel())) // Sort by level
+                    .toList();
+
+            // Remove the lowest level entries (if necessary)
+            List<Map.Entry<PrimaryClassSkill, Experience>> entriesToRemove = sortedEntries.subList(0, sortedEntries.size() - ServerConfig.NUM_CLASSES_ALLOWED.get());
+            PMMOUtil.deleteSkills(serverPlayer, entriesToRemove.stream().map(entry -> entry.getKey().getSkillName()).toList());
+            return !entriesToRemove.isEmpty();
+        }
+        return false;
     }
+
+    // This method checks if multiple subclasses exist for a single primary class type, which is a no no. If it does it just
+    // deletes off all but the first in the list because it has no other way of knowing which to delete, they will all be level 1.
+    public boolean checkAndUpdateSubClasses(ServerPlayer serverPlayer, SubClassSkill subClassSkillAdded) {
+        List<PrimaryClassSkill> primaryClassSkills = this.getPrimaryClassesAsList();
+
+        Set<String> subClassesToRemove = new HashSet<>();
+        Map<PrimaryClassSkill, List<SubClassSkill>> primaryToSubMap = new HashMap<>();
+        for (SubClassSkill subClassSkill : this.getSubClassesAsList()) {
+            // Check to see if the subclass has a proper parent class.
+            if (!primaryClassSkills.contains(subClassSkill.getParentClass())) {
+                subClassesToRemove.add(subClassSkill.getSkillName());
+            } else {
+                // If it wasn't removed from the previous call then it does have a proper parent, check if there
+                // are too many subclasses for any one parent.
+                primaryToSubMap.computeIfAbsent(subClassSkill.getParentClass(), k -> new ArrayList<>()).add(subClassSkill);
+            }
+        }
+
+        for (Map.Entry<PrimaryClassSkill, List<SubClassSkill>> entry : primaryToSubMap.entrySet()) {
+            if (entry.getValue().size() > 1) {
+                if(subClassSkillAdded != null && entry.getKey() == subClassSkillAdded.getParentClass()) {
+                    subClassesToRemove.addAll(entry.getValue().stream().filter(subClass -> subClass != subClassSkillAdded).map(SubClassSkill::getSkillName).toList());
+                } else {
+                    subClassesToRemove.addAll(entry.getValue().subList(1, entry.getValue().size()).stream().map(SubClassSkill::getSkillName).toList());
+                }
+            }
+        }
+
+        if (!subClassesToRemove.isEmpty()) {
+            PMMOUtil.deleteSkills(serverPlayer, new ArrayList<>(subClassesToRemove));
+            return true;
+        }
+
+        return false;
+    }
+
+    public void checkAndUpdateAscendedClasses(ServerPlayer serverPlayer) {
+        // If you have an ascended class but ascended classes are not active, delete it
+        if(!ServerConfig.ASCENDED_CLASSES_ACTIVE.get() && this.getAscendedClassSkill() != null) {
+            PMMOUtil.deleteSkills(serverPlayer, List.of(this.getAscendedClassSkill().getSkillName()));
+        } else if(ServerConfig.ASCENDED_CLASSES_ACTIVE.get()) {
+            // If ascended classes are active and you currently don't have one, and you have 2 primary classes, check if one should be granted.
+            List<PrimaryClassSkill> primaryClassesMeetingRequirements = this.getPrimaryClassMap().entrySet().stream()
+                    .filter(entry -> entry.getValue().getLevel().getLevel() >= ServerConfig.ASCENDED_CLASS_LEVEL_REQ.get())
+                    .map(Map.Entry::getKey)
+                    .toList();
+
+            if(primaryClassesMeetingRequirements.size() == 2) {
+                AscendedClassSkill.getAscendedClassSkill(primaryClassesMeetingRequirements.get(0), primaryClassesMeetingRequirements.get(1))
+                        .ifPresent(newAscendedClassSkill -> {
+                            if(this.ascendedClassSkill == null || this.ascendedClassSkill != newAscendedClassSkill) {
+                                if(this.ascendedClassSkill != null) {
+                                    PMMOUtil.deleteSkills(serverPlayer, List.of(this.getAscendedClassSkill().getSkillName()));
+                                }
+                                APIUtils.setLevel(newAscendedClassSkill.getSkillName(), serverPlayer, 1);
+                                serverPlayer.sendSystemMessage(Component.translatable("pmmo_classes.message.gained_ascended_class", newAscendedClassSkill.getTranslatedSkillName()));
+                            }
+                        });
+            } else if(this.ascendedClassSkill != null) {
+                PMMOUtil.deleteSkills(serverPlayer, List.of(this.getAscendedClassSkill().getSkillName()));
+            }
+        }
+    }
+
+
 
     public AddClassSkillResult canAddClassSkill(String skill, Long level) {
         // If the skill is a primary class, validate it

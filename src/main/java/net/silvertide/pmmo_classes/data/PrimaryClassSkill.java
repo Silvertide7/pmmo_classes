@@ -10,7 +10,7 @@ public enum PrimaryClassSkill implements IClassSkill {
     DRUID(ClassGroup.PRIEST,0,88),
     FIGHTER(ClassGroup.WARRIOR,0,110),
     MONK(ClassGroup.WARRIOR,0,132),
-    PALADIN(ClassGroup.PRIEST,88,154),
+    PALADIN(ClassGroup.PRIEST,0,154),
     RANGER(ClassGroup.EXPERT,0,176),
     ROGUE(ClassGroup.EXPERT,0,198),
     SORCERER(ClassGroup.MAGE,0,220),

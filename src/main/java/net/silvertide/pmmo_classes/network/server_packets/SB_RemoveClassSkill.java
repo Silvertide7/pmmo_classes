@@ -21,6 +21,7 @@ import net.silvertide.pmmo_classes.data.PrimaryClassSkill;
 import net.silvertide.pmmo_classes.data.SubClassSkill;
 import net.silvertide.pmmo_classes.network.client_packets.CB_ClassRemoved;
 import net.silvertide.pmmo_classes.utils.GUIUtil;
+import net.silvertide.pmmo_classes.utils.PMMOUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -40,29 +41,27 @@ public record SB_RemoveClassSkill(String skill) implements CustomPacketPayload {
                 PlayerClassProfile profile = new PlayerClassProfile(serverPlayer);
                 List<String> skillsToRemove = getSkillsToRemove(profile, primaryClassSkillToRemove);
 
-                for(String skill : skillsToRemove) {
-                    IDataStorage data = Core.get(LogicalSide.SERVER).getData();
-                    data.getXpMap(serverPlayer.getUUID()).remove(skill);
-                    Networking.sendToClient(new CP_SyncData_ClearXp(skill), serverPlayer);
-                }
-
                 if(!skillsToRemove.isEmpty()) {
+                    PMMOUtil.deleteSkills(serverPlayer, skillsToRemove);
                     PacketDistributor.sendToPlayer(serverPlayer, new CB_ClassRemoved());
+                    sendUpdateMessageToPlayer(serverPlayer, skillsToRemove);
                 }
-
-                StringBuilder skillsRemovedDisplay = new StringBuilder();
-                skillsRemovedDisplay.append("[ ");
-                for(int i = 0; i < skillsToRemove.size(); i++) {
-                    skillsRemovedDisplay.append(GUIUtil.prettifyName(skillsToRemove.get(i)));
-
-                    if(i != skillsToRemove.size() - 1) {
-                        skillsRemovedDisplay.append(", ");
-                    }
-                }
-                skillsRemovedDisplay.append("]");
-                serverPlayer.sendSystemMessage(Component.translatable("pmmo_classes.message.remove_classes", skillsRemovedDisplay.toString()));
             }
         });
+    }
+
+    private static void sendUpdateMessageToPlayer(ServerPlayer serverPlayer, List<String> skillsToRemove) {
+        StringBuilder skillsRemovedDisplay = new StringBuilder();
+        skillsRemovedDisplay.append("[ ");
+        for(int i = 0; i < skillsToRemove.size(); i++) {
+            skillsRemovedDisplay.append(GUIUtil.prettifyName(skillsToRemove.get(i)));
+
+            if(i != skillsToRemove.size() - 1) {
+                skillsRemovedDisplay.append(", ");
+            }
+        }
+        skillsRemovedDisplay.append("]");
+        serverPlayer.sendSystemMessage(Component.translatable("pmmo_classes.message.remove_classes", skillsRemovedDisplay.toString()));
     }
 
     private static @NotNull List<String> getSkillsToRemove(PlayerClassProfile profile, String primaryClassSkillToRemove) {

@@ -31,7 +31,7 @@
   "pmmo_classes.screen.manage_classes.no_classes_text": "No classes learned.",
 
   "pmmo_classes.message.remove_classes": "You have lost the classes %1$s",
-  "pmmo_classes.message.gained_ascended_class": "You have gained the Ascended Class %1$s",
+  "pmmo_classes.message.gained_ascended_class": "You have gained the ascended class %1$s",
 
   "pmmo_classes.insignia.iron.warrior": "Iron Warrior's Insignia",
   "pmmo_classes.insignia.gold.warrior": "Golden Warrior's Insignia",
@@ -80,6 +80,149 @@
   "pmmo.sorcerer": "Sorcerer",
   "pmmo.warlock": "Warlock",
   "pmmo.wizard": "Wizard",
+
+
+  "pmmo.alchemist": "Alchemist",
+  "pmmo.armorer": "Armorer",
+  "pmmo.artillerist": "Artillerist",
+
+  "pmmo.berserker": "Berserker",
+  "pmmo.storm_herald": "Storm Herald",
+  "pmmo.beast": "Beast",
+
+  "pmmo.college_of_swords": "College of Swords",
+  "pmmo.college_of_whispers": "College of Whispers",
+  "pmmo.college_of_spirits": "College of Spirits",
+
+  "pmmo.death_domain": "Death Domain",
+  "pmmo.life_domain": "Life Domain",
+  "pmmo.war_domain": "War Domain",
+
+  "pmmo.circle_of_dreams": "Circle of Dreams",
+  "pmmo.circle_of_spores": "Circle of Spores",
+  "pmmo.circle_of_wildfire": "Circle of Wildfire",
+
+  "pmmo.champion": "Champion",
+  "pmmo.eldritch_knight": "Eldritch Knight",
+  "pmmo.samurai": "Samurai",
+
+  "pmmo.way_of_the_kensei": "Way of the Kensei",
+  "pmmo.way_of_shadow": "Way of Shadow",
+  "pmmo.way_of_the_dragon": "Way of the Dragon",
+
+  "pmmo.oathbreaker": "Oathbreaker",
+  "pmmo.oath_of_vengeance": "Oath of Vengeance",
+  "pmmo.oath_of_redemption": "Oath of Redemption",
+
+  "pmmo.gloom_stalker": "Gloom Stalker",
+  "pmmo.drake_warden": "Drake Warden",
+  "pmmo.beast_master": "Beast Master",
+
+  "pmmo.assassin": "Assassin",
+  "pmmo.scout": "Scout",
+  "pmmo.soulknife": "Soulknife",
+
+  "pmmo.divine_soul": "Divine Soul",
+  "pmmo.shadow_magic": "Shadow Magic",
+  "pmmo.storm_sorcery": "Storm Sorcery",
+
+  "pmmo.hexblade": "Hexblade",
+  "pmmo.archfey": "Archfey",
+  "pmmo.fathomless": "Fathomless",
+
+  "pmmo.evocation": "Evocation",
+  "pmmo.necromancy": "Necromancy",
+  "pmmo.graviturgy": "Graviturgy",
+
+  "pmmo.ragnarok": "Ragnarok",
+  "pmmo.sonomancer": "Sonomancer",
+  "pmmo.vestige": "Vestige",
+  "pmmo.wildweaver": "Wildweaver",
+  "pmmo.titan": "Titan",
+  "pmmo.zenith": "Zenith",
+  "pmmo.luminar": "Luminar",
+  "pmmo.wayforged": "Wayforged",
+  "pmmo.gloomsmith": "Gloomsmith",
+  "pmmo.eidolon": "Eidolon",
+  "pmmo.hexwright": "Hexwright",
+  "pmmo.sage": "Sage",
+
+  "pmmo.warchanter": "Warchanter",
+  "pmmo.lightborn": "Lightborn",
+  "pmmo.stormborn": "Stormborn",
+  "pmmo.warlord": "Warlord",
+  "pmmo.wildsent": "Wildsent",
+  "pmmo.crusader": "Crusader",
+  "pmmo.bloodforged": "Bloodforged",
+  "pmmo.reaver": "Reaver",
+  "pmmo.sanguinar": "Sanguinar",
+  "pmmo cursebringer": "Cursebringer",
+  "pmmo.runebreaker": "Runebreaker",
+
+  "pmmo.hymncaller": "Hymncaller",
+  "pmmo.windsinger": "Windsinger",
+  "pmmo.bladedancer": "Bladedancer",
+  "pmmo.wayfarer": "Wayfarer",
+  "pmmo.lorekeeper": "Lorekeeper",
+  "pmmo.wanderer": "Wanderer",
+  "pmmo.nightsong": "Nightsong",
+  "pmmo.spellweaver": "Spellweaver",
+  "pmmo.fatesinger": "Fatesinger",
+  "pmmo.spellsinger": "Spellsinger",
+
+  "pmmo.hierophant": "Hierophant",
+  "pmmo.templar": "Templar",
+  "pmmo.ascetic": "Ascetic",
+  "pmmo.paragon": "Paragon",
+  "pmmo.warden": "Warden",
+  "pmmo.inquisitor": "Inquisitor",
+  "pmmo.mystic": "Mystic",
+  "pmmo.occultist": "Occultist",
+  "pmmo.divinist": "Divinist",
+
+  "pmmo.primal": "Primal",
+  "pmmo.shaman": "Shaman",
+  "pmmo.wildoath": "Wildoath",
+  "pmmo.stalker": "Stalker",
+  "pmmo.shade": "Shade",
+  "pmmo.stormcaller": "Stormcaller",
+  "pmmo.blightcaster": "Blightcaster",
+  "pmmo.archdruid": "Archdruid",
+
+  "pmmo.ironguard": "Ironguard",
+  "pmmo.warborn": "Warborn",
+  "pmmo.vanguard": "Vanguard",
+  "pmmo.duskrender": "Duskrender",
+  "pmmo.runeharrow": "Runeharrow",
+  "pmmo.dreadmarked": "Dreadmarked",
+  "pmmo.warcaller": "Warcaller",
+
+  "pmmo.seraph": "Seraph",
+  "pmmo.traveler": "Traveler",
+  "pmmo.whisperer": "Whisperer",
+  "pmmo.arcanist": "Arcanist",
+  "pmmo.voidfist": "Voidfist",
+  "pmmo.runic": "Runic",
+
+  "pmmo.redeemer": "Redeemer",
+  "pmmo.ravager": "Ravager",
+  "pmmo.emberbane": "Emberbane",
+  "pmmo.herald": "Herald",
+  "pmmo.auramancer": "Auramancer",
+
+  "pmmo.nightstalker": "Nightstalker",
+  "pmmo.dreadhunter": "Dreadhunter",
+  "pmmo.felweaver": "Felweaver",
+  "pmmo.hexbane": "Hexbane",
+
+  "pmmo.shadowcaster": "Shadowcaster",
+  "pmmo.felstalker": "Felstalker",
+  "pmmo.illusionist": "Illusionist",
+
+  "pmmo.scion": "Scion",
+  "pmmo.archmage": "Archmage",
+
+  "pmmo.darksage": "Darksage",
 
   "pmmo_skill_books.screen.grant_skill.choose_skill": "Choose a Class"
 }

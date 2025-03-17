@@ -8,40 +8,40 @@ import java.util.Optional;
 
 public enum AscendedClassSkill implements IClassSkill {
     RAGNAROK(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.BARBARIAN),
-    ECHOIST(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.BARD), // TODO: RENAME
-    RELIQUARIAN(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.CLERIC), // TODO: RENAME
-    THRYNN(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.DRUID), // TODO: RENAME
+    SONOMANCER(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.BARD),
+    VESTIGE(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.CLERIC),
+    WILDWEAVER(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.DRUID),
     TITAN(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.FIGHTER),
     ZENITH(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.MONK),
-    VALEBORN(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.PALADIN), // TODO: RENAME
-    STRYVER(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.RANGER), // TODO: RENAME
+    LUMINAR(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.PALADIN),
+    WAYFORGED(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.RANGER),
     GLOOMSMITH(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.ROGUE),
     EIDOLON(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.SORCERER),
-    HEXWRIGHT(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.WARLOCK), // TODO: RENAME
-    RUNESAGE(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.WIZARD), // TODO: RENAME
+    HEXWRIGHT(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.WARLOCK),
+    SAGE(PrimaryClassSkill.ARTIFICER, PrimaryClassSkill.WIZARD),
 
-    STORM_BLADE(PrimaryClassSkill.BARBARIAN, PrimaryClassSkill.BARD), // TODO: RENAME
-    WARPRIEST(PrimaryClassSkill.BARBARIAN, PrimaryClassSkill.CLERIC),
+    WARCHANTER(PrimaryClassSkill.BARBARIAN, PrimaryClassSkill.BARD),
+    LIGHTBORN(PrimaryClassSkill.BARBARIAN, PrimaryClassSkill.CLERIC),
     STORMBORN(PrimaryClassSkill.BARBARIAN, PrimaryClassSkill.DRUID),
     WARLORD(PrimaryClassSkill.BARBARIAN, PrimaryClassSkill.FIGHTER),
-    FIST_OF_THE_WILD(PrimaryClassSkill.BARBARIAN, PrimaryClassSkill.MONK), // TODO: RENAME
+    WILDSENT(PrimaryClassSkill.BARBARIAN, PrimaryClassSkill.MONK),
     CRUSADER(PrimaryClassSkill.BARBARIAN, PrimaryClassSkill.PALADIN),
-    BEASTMASTER(PrimaryClassSkill.BARBARIAN, PrimaryClassSkill.RANGER),
+    BLOODFORGED(PrimaryClassSkill.BARBARIAN, PrimaryClassSkill.RANGER),
     REAVER(PrimaryClassSkill.BARBARIAN, PrimaryClassSkill.ROGUE),
-    BLOODMAGE(PrimaryClassSkill.BARBARIAN, PrimaryClassSkill.SORCERER), // TODO: RENAME
-    HEXBORN(PrimaryClassSkill.BARBARIAN, PrimaryClassSkill.WARLOCK), // TODO: RENAME
+    SANGUINAR(PrimaryClassSkill.BARBARIAN, PrimaryClassSkill.SORCERER),
+    CURSEBRINGER(PrimaryClassSkill.BARBARIAN, PrimaryClassSkill.WARLOCK),
     RUNEBREAKER(PrimaryClassSkill.BARBARIAN, PrimaryClassSkill.WIZARD),
 
     HYMNCALLER(PrimaryClassSkill.BARD, PrimaryClassSkill.CLERIC),
     WINDSINGER(PrimaryClassSkill.BARD, PrimaryClassSkill.DRUID),
-    BLADE_DANCER(PrimaryClassSkill.BARD, PrimaryClassSkill.FIGHTER),
+    BLADEDANCER(PrimaryClassSkill.BARD, PrimaryClassSkill.FIGHTER),
     WAYFARER(PrimaryClassSkill.BARD, PrimaryClassSkill.MONK),
-    CHRONICLER(PrimaryClassSkill.BARD, PrimaryClassSkill.PALADIN), // TODO: RENAME
+    LOREKEEPER(PrimaryClassSkill.BARD, PrimaryClassSkill.PALADIN),
     WANDERER(PrimaryClassSkill.BARD, PrimaryClassSkill.RANGER),
-    SHADOW_MINSTREL(PrimaryClassSkill.BARD, PrimaryClassSkill.ROGUE), // TODO: RENAME
+    NIGHTSONG(PrimaryClassSkill.BARD, PrimaryClassSkill.ROGUE),
     SPELLWEAVER(PrimaryClassSkill.BARD, PrimaryClassSkill.SORCERER),
     FATESINGER(PrimaryClassSkill.BARD, PrimaryClassSkill.WARLOCK),
-    ARCANIST(PrimaryClassSkill.BARD, PrimaryClassSkill.WIZARD), // TODO: RENAME
+    SPELLSINGER(PrimaryClassSkill.BARD, PrimaryClassSkill.WIZARD),
 
     HIEROPHANT(PrimaryClassSkill.CLERIC, PrimaryClassSkill.DRUID),
     TEMPLAR(PrimaryClassSkill.CLERIC, PrimaryClassSkill.FIGHTER),
@@ -51,51 +51,51 @@ public enum AscendedClassSkill implements IClassSkill {
     INQUISITOR(PrimaryClassSkill.CLERIC, PrimaryClassSkill.ROGUE),
     MYSTIC(PrimaryClassSkill.CLERIC, PrimaryClassSkill.SORCERER),
     OCCULTIST(PrimaryClassSkill.CLERIC, PrimaryClassSkill.WARLOCK),
-    THAUMATURGE(PrimaryClassSkill.CLERIC, PrimaryClassSkill.WIZARD), // TODO: RENAME
+    DIVINIST(PrimaryClassSkill.CLERIC, PrimaryClassSkill.WIZARD),
 
-    GLADIATOR_OF_THE_WILD(PrimaryClassSkill.DRUID, PrimaryClassSkill.FIGHTER), // TODO: RENAME
-    FERAL_SAGE(PrimaryClassSkill.DRUID, PrimaryClassSkill.MONK),
-    NATURES_VINDICATOR(PrimaryClassSkill.DRUID, PrimaryClassSkill.PALADIN), // TODO: RENAME
-    WILDSTALKER(PrimaryClassSkill.DRUID, PrimaryClassSkill.RANGER),
-    TRICKSTER_SHAMAN(PrimaryClassSkill.DRUID, PrimaryClassSkill.ROGUE), // TODO: RENAME
+    PRIMAL(PrimaryClassSkill.DRUID, PrimaryClassSkill.FIGHTER),
+    SHAMAN(PrimaryClassSkill.DRUID, PrimaryClassSkill.MONK),
+    WILDOATH(PrimaryClassSkill.DRUID, PrimaryClassSkill.PALADIN),
+    STALKER(PrimaryClassSkill.DRUID, PrimaryClassSkill.RANGER),
+    SHADE(PrimaryClassSkill.DRUID, PrimaryClassSkill.ROGUE),
     STORMCALLER(PrimaryClassSkill.DRUID, PrimaryClassSkill.SORCERER),
     BLIGHTCASTER(PrimaryClassSkill.DRUID, PrimaryClassSkill.WARLOCK),
     ARCHDRUID(PrimaryClassSkill.DRUID, PrimaryClassSkill.WIZARD),
 
-    IRON_FIST(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.MONK), // TODO: RENAME
-    KNIGHT_ERRANT(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.PALADIN), // TODO: RENAME
-    VANGAURD(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.RANGER),
-    BLADEMASTER(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.ROGUE), // TODO: RENAME
-    SPELLBLADE(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.SORCERER), // TODO: RENAME
-    HEX_MASTER(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.WARLOCK), // TODO: RENAME
-    BATTLEMAGE(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.WIZARD), // TODO: RENAME
+    IRONGUARD(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.MONK),
+    WARBORN(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.PALADIN),
+    VANGUARD(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.RANGER),
+    DUSKRENDER(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.ROGUE),
+    RUNEHARROW(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.SORCERER),
+    DREADMARKED(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.WARLOCK),
+    WARCALLER(PrimaryClassSkill.FIGHTER, PrimaryClassSkill.WIZARD),
 
-    FIST_OF_THE_LIGHT(PrimaryClassSkill.MONK, PrimaryClassSkill.PALADIN), // TODO: RENAME
-    SHADOWSTRIKER(PrimaryClassSkill.MONK, PrimaryClassSkill.RANGER), // TODO: RENAME
-    SILENT_FIST(PrimaryClassSkill.MONK, PrimaryClassSkill.ROGUE), // TODO: RENAME
-    CHI_ARCANIST(PrimaryClassSkill.MONK, PrimaryClassSkill.SORCERER),
-    WAY_OF_THE_FORSAKEN(PrimaryClassSkill.MONK, PrimaryClassSkill.WARLOCK), // TODO: RENAME
-    RUNED_DISCIPLE(PrimaryClassSkill.MONK, PrimaryClassSkill.WIZARD),
+    SERAPH(PrimaryClassSkill.MONK, PrimaryClassSkill.PALADIN),
+    TRAVELER(PrimaryClassSkill.MONK, PrimaryClassSkill.RANGER),
+    WHISPERER(PrimaryClassSkill.MONK, PrimaryClassSkill.ROGUE),
+    ARCANIST(PrimaryClassSkill.MONK, PrimaryClassSkill.SORCERER),
+    VOIDFIST(PrimaryClassSkill.MONK, PrimaryClassSkill.WARLOCK),
+    RUNIC(PrimaryClassSkill.MONK, PrimaryClassSkill.WIZARD),
 
-    HUNGER_KNIGHT(PrimaryClassSkill.PALADIN, PrimaryClassSkill.RANGER), // TODO: RENAME
-    DIVINE_ASSASSIN(PrimaryClassSkill.PALADIN, PrimaryClassSkill.ROGUE), // TODO: RENAME
-    DRAGON_KNIGHT(PrimaryClassSkill.PALADIN, PrimaryClassSkill.SORCERER), // TODO: RENAME
+    REDEEMER(PrimaryClassSkill.PALADIN, PrimaryClassSkill.RANGER),
+    RAVAGER(PrimaryClassSkill.PALADIN, PrimaryClassSkill.ROGUE),
+    EMBERBANE(PrimaryClassSkill.PALADIN, PrimaryClassSkill.SORCERER),
     HERALD(PrimaryClassSkill.PALADIN, PrimaryClassSkill.WARLOCK),
-    SPELL_TEMPLAR(PrimaryClassSkill.PALADIN, PrimaryClassSkill.WIZARD), // TODO: RENAME
+    AURAMANCER(PrimaryClassSkill.PALADIN, PrimaryClassSkill.WIZARD),
 
     NIGHTSTALKER(PrimaryClassSkill.RANGER, PrimaryClassSkill.ROGUE),
-    ELEMENTAL_ARCHER(PrimaryClassSkill.RANGER, PrimaryClassSkill.SORCERER), // TODO: RENAME
-    CURSE_HUNTER(PrimaryClassSkill.RANGER, PrimaryClassSkill.WARLOCK),
-    ARCANE_ARCHER(PrimaryClassSkill.RANGER, PrimaryClassSkill.WIZARD), // TODO: RENAME
+    DREADHUNTER(PrimaryClassSkill.RANGER, PrimaryClassSkill.SORCERER),
+    FELWEAVER(PrimaryClassSkill.RANGER, PrimaryClassSkill.WARLOCK),
+    HEXBANE(PrimaryClassSkill.RANGER, PrimaryClassSkill.WIZARD),
 
     SHADOWCASTER(PrimaryClassSkill.ROGUE, PrimaryClassSkill.SORCERER),
-    VOID_STALKER(PrimaryClassSkill.ROGUE, PrimaryClassSkill.WARLOCK),
+    FELSTALKER(PrimaryClassSkill.ROGUE, PrimaryClassSkill.WARLOCK),
     ILLUSIONIST(PrimaryClassSkill.ROGUE, PrimaryClassSkill.WIZARD),
 
-    ELDRITCH_SCION(PrimaryClassSkill.SORCERER, PrimaryClassSkill.WARLOCK),
+    SCION(PrimaryClassSkill.SORCERER, PrimaryClassSkill.WARLOCK),
     ARCHMAGE(PrimaryClassSkill.SORCERER, PrimaryClassSkill.WIZARD),
 
-    OCCULT_ARCANIST(PrimaryClassSkill.WARLOCK, PrimaryClassSkill.WIZARD); // TODO: RENAME
+    DARKSAGE(PrimaryClassSkill.WARLOCK, PrimaryClassSkill.WIZARD);
 
     private final PrimaryClassSkill firstPrimaryClass;
     private final PrimaryClassSkill secondPrimaryClass;

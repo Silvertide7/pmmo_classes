@@ -1,20 +1,23 @@
 package net.silvertide.pmmo_classes.utils;
 
-import harmonised.pmmo.api.APIUtils;
-import harmonised.pmmo.config.Config;
+import harmonised.pmmo.core.Core;
+import harmonised.pmmo.core.IDataStorage;
+import harmonised.pmmo.network.Networking;
+import harmonised.pmmo.network.clientpackets.CP_SyncData_ClearXp;
 import net.minecraft.server.level.ServerPlayer;
-import net.silvertide.pmmo_classes.PMMOClasses;
+import net.neoforged.fml.LogicalSide;
+
+import java.util.List;
 
 public final class PMMOUtil {
     private PMMOUtil() {}
 
-    public static boolean isPlayerAtMaxLevel(ServerPlayer player, String skill) {
-        boolean result = false;
-        try {
-            result = APIUtils.getLevel(skill, player) >= Config.server().levels().maxLevel();
-        } catch (IllegalArgumentException ignored) {
-            PMMOClasses.LOGGER.error("PMMOClasses - isPlayerAtMaxLevel - IllegalArgumentException");
-        }
-        return result;
+    public static void deleteSkills(ServerPlayer serverPlayer, List<String> skillsToRemove) {
+        IDataStorage data = Core.get(LogicalSide.SERVER).getData();
+        skillsToRemove.forEach(skill -> {
+            data.setXp(serverPlayer.getUUID(), skill, 0);
+            data.getXpMap(serverPlayer.getUUID()).remove(skill);
+            Networking.sendToClient(new CP_SyncData_ClearXp(skill), serverPlayer);
+        });
     }
 }
