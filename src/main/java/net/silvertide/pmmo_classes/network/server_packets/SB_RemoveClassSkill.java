@@ -1,9 +1,5 @@
 package net.silvertide.pmmo_classes.network.server_packets;
 
-import harmonised.pmmo.core.Core;
-import harmonised.pmmo.core.IDataStorage;
-import harmonised.pmmo.network.Networking;
-import harmonised.pmmo.network.clientpackets.CP_SyncData_ClearXp;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -11,7 +7,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.fml.LogicalSide;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.silvertide.pmmo_classes.PMMOClasses;

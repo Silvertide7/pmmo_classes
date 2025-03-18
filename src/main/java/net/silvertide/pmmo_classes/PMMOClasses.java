@@ -11,6 +11,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.silvertide.pmmo_classes.client.keybindings.Keybindings;
 import net.silvertide.pmmo_classes.config.ServerConfig;
 import net.silvertide.pmmo_classes.registry.ItemRegistry;
 import net.silvertide.pmmo_classes.registry.TabRegistry;
@@ -35,6 +37,11 @@ public class PMMOClasses
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent clientSetupEvent) {
             clientSetupEvent.enqueueWork(() -> ItemProperties.register(ItemRegistry.CLASS_GRANT.get(), ItemPropertyRegistry.SKILL_GRANT_PROPERTY, (stack, level, entity, seed) -> ItemPropertyRegistry.getSkillGrantConfiguration(stack)));
+        }
+
+        @SubscribeEvent
+        public static void registerKeys(RegisterKeyMappingsEvent keyMappingsEvent) {
+            keyMappingsEvent.register(Keybindings.INSTANCE.useOpenManageClassesKey);
         }
     }
 

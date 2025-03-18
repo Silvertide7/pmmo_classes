@@ -1,6 +1,5 @@
 package net.silvertide.pmmo_classes.utils;
 
-import net.minecraft.server.level.ServerPlayer;
 import net.silvertide.pmmo_classes.data.*;
 
 import java.util.*;

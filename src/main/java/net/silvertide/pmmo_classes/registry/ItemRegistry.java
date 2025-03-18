@@ -7,8 +7,6 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silvertide.pmmo_classes.PMMOClasses;
 import net.silvertide.pmmo_classes.items.ClassGrantItem;
-import net.silvertide.pmmo_skill_books.PMMOSkillBooks;
-import net.silvertide.pmmo_skill_books.items.SkillGrantItem;
 
 public class ItemRegistry {
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, PMMOClasses.MOD_ID);
