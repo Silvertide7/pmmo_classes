@@ -2,7 +2,7 @@ package net.silvertide.pmmo_classes.client.keybindings;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
-import net.neoforged.neoforge.client.settings.KeyConflictContext;
+import net.minecraftforge.client.settings.KeyConflictContext;
 import net.silvertide.pmmo_classes.PMMOClasses;
 
 public class Keybindings {

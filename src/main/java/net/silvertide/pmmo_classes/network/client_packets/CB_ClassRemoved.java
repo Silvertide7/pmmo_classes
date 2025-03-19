@@ -2,27 +2,22 @@ package net.silvertide.pmmo_classes.network.client_packets;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
-import net.silvertide.pmmo_classes.PMMOClasses;
+import net.minecraftforge.network.NetworkEvent;
 import net.silvertide.pmmo_classes.gui.ManageClassesScreen;
-import org.jetbrains.annotations.NotNull;
 
-public record CB_ClassRemoved() implements CustomPacketPayload {
-    public static final CB_ClassRemoved INSTANCE = new CB_ClassRemoved();
-    public static final Type<CB_ClassRemoved> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(PMMOClasses.MOD_ID, "cb_class_removed"));
-    public static final StreamCodec<FriendlyByteBuf, CB_ClassRemoved> STREAM_CODEC =  StreamCodec.unit(INSTANCE);
+import java.util.function.Supplier;
 
-    public static void handle(CB_ClassRemoved packet, IPayloadContext ctx) {
-        ctx.enqueueWork(() -> {
+public class CB_ClassRemoved {
+    public CB_ClassRemoved() {}
+    public CB_ClassRemoved(FriendlyByteBuf buf) {}
+    public void encode(FriendlyByteBuf buf) {}
+    public static void handle(CB_ClassRemoved msg, Supplier<NetworkEvent.Context> contextSupplier) {
+        NetworkEvent.Context context = contextSupplier.get();
+        context.enqueueWork(() -> {
             if(Minecraft.getInstance().screen instanceof ManageClassesScreen manageClassesScreen) {
                 manageClassesScreen.createClassCards();
             }
         });
+        context.setPacketHandled(true);
     }
-
-    @Override
-    public @NotNull Type<CB_ClassRemoved> type() { return TYPE; }
 }

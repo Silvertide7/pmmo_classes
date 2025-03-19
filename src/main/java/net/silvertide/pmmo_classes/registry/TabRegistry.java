@@ -5,14 +5,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 import net.silvertide.pmmo_classes.PMMOClasses;
 import net.silvertide.pmmo_classes.data.ClassGroup;
 import net.silvertide.pmmo_classes.data.PrimaryClassSkill;
 import net.silvertide.pmmo_classes.utils.ClassUtil;
-import net.silvertide.pmmo_skill_books.utils.DataComponentUtil;
+import net.silvertide.pmmo_skill_books.items.components.SkillGrantData;
+import net.silvertide.pmmo_skill_books.utils.SkillGrantUtil;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class TabRegistry {
 
     public static void register(IEventBus eventBus) { CREATIVE_MODE_TABS.register(eventBus); }
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MOD_TAB = CREATIVE_MODE_TABS.register("pmmo_class_tab",
+    public static final RegistryObject<CreativeModeTab> MOD_TAB = CREATIVE_MODE_TABS.register("pmmo_class_tab",
             () -> CreativeModeTab.builder()
                     .icon(TabRegistry::getIcon)
                     .title(Component.translatable("creative_tab.pmmo_classes.classes"))
@@ -71,13 +72,15 @@ public class TabRegistry {
 
     private static ItemStack getIcon() {
         ItemStack skillGrant = new ItemStack(ItemRegistry.CLASS_GRANT.get());
-        DataComponentUtil.addSkillGrantData(skillGrant, "", List.of(), "level", 1L,  0, "insignia", "gold", "red");
+        SkillGrantData skillGrantData = new SkillGrantData("", List.of(), "level", 1L,  0, "insignia", "gold", "red");
+        SkillGrantUtil.putSkillGrantData(skillGrant, skillGrantData);
         return skillGrant;
     }
 
     private static void addClassGrantItem(CreativeModeTab.Output output, String name, List<String> skills, String applicationType, Long value, int experienceCost, String rank, String color) {
         ItemStack classGrant = new ItemStack(ItemRegistry.CLASS_GRANT.get());
-        DataComponentUtil.addSkillGrantData(classGrant, name, skills, applicationType, value,  experienceCost, "insignia", rank, color);
+        SkillGrantData skillGrantData = new SkillGrantData(name, skills, applicationType, value,  experienceCost, "insignia", rank, color);
+        SkillGrantUtil.putSkillGrantData(classGrant, skillGrantData);
         output.accept(classGrant);
     }
 }

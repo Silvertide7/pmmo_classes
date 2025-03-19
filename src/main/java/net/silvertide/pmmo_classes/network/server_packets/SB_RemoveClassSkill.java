@@ -2,18 +2,13 @@ package net.silvertide.pmmo_classes.network.server_packets;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
-import net.silvertide.pmmo_classes.PMMOClasses;
+import net.minecraftforge.network.NetworkEvent;
 import net.silvertide.pmmo_classes.data.AscendedClassSkill;
 import net.silvertide.pmmo_classes.data.PlayerClassProfile;
 import net.silvertide.pmmo_classes.data.PrimaryClassSkill;
 import net.silvertide.pmmo_classes.data.SubClassSkill;
+import net.silvertide.pmmo_classes.network.PacketHandler;
 import net.silvertide.pmmo_classes.network.client_packets.CB_ClassRemoved;
 import net.silvertide.pmmo_classes.utils.GUIUtil;
 import net.silvertide.pmmo_classes.utils.PMMOUtil;
@@ -21,28 +16,45 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 
-public record SB_RemoveClassSkill(String skill) implements CustomPacketPayload {
-    public static final Type<SB_RemoveClassSkill> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(PMMOClasses.MOD_ID, "sb_remove_class_skill"));
-    public static final StreamCodec<FriendlyByteBuf, SB_RemoveClassSkill> STREAM_CODEC = StreamCodec
-            .composite(ByteBufCodecs.STRING_UTF8, SB_RemoveClassSkill::skill,
-                    SB_RemoveClassSkill::new);
+public class SB_RemoveClassSkill {
+    private final String skill;
 
-    public static void handle(SB_RemoveClassSkill packet, IPayloadContext ctx) {
+    public SB_RemoveClassSkill(String skill) {
+        this.skill = skill;
+    }
+
+    public SB_RemoveClassSkill(FriendlyByteBuf buf) {
+        this.skill = buf.readUtf();
+    }
+
+    public String getSkill() {
+        return skill;
+    }
+
+    public void encode(FriendlyByteBuf buf) {
+        buf.writeUtf(this.skill);
+    }
+
+    public static void handle(SB_RemoveClassSkill packet, Supplier<NetworkEvent.Context> contextSupplier) {
+        NetworkEvent.Context ctx = contextSupplier.get();
         ctx.enqueueWork(() -> {
-            if(ctx.player() instanceof ServerPlayer serverPlayer) {
-                String primaryClassSkillToRemove = packet.skill();
+            ServerPlayer serverPlayer = ctx.getSender();
+            if(serverPlayer != null) {
+                String primaryClassSkillToRemove = packet.getSkill();
                 PlayerClassProfile profile = new PlayerClassProfile(serverPlayer);
                 List<String> skillsToRemove = getSkillsToRemove(profile, primaryClassSkillToRemove);
 
                 if(!skillsToRemove.isEmpty()) {
                     PMMOUtil.deleteSkills(serverPlayer, skillsToRemove);
-                    PacketDistributor.sendToPlayer(serverPlayer, new CB_ClassRemoved());
+                    PacketHandler.sendToClient(serverPlayer, new CB_ClassRemoved());
                     sendUpdateMessageToPlayer(serverPlayer, skillsToRemove);
                 }
             }
         });
+        ctx.setPacketHandled(true);
     }
 
     private static void sendUpdateMessageToPlayer(ServerPlayer serverPlayer, List<String> skillsToRemove) {
@@ -80,7 +92,4 @@ public record SB_RemoveClassSkill(String skill) implements CustomPacketPayload {
         }
         return skillsToRemove;
     }
-
-    @Override
-    public @NotNull Type<SB_RemoveClassSkill> type() { return TYPE; }
 }

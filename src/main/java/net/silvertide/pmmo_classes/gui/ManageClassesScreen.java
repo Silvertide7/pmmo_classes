@@ -1,13 +1,12 @@
 package net.silvertide.pmmo_classes.gui;
 
-import harmonised.pmmo.storage.Experience;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.silvertide.pmmo_classes.PMMOClasses;
 import net.silvertide.pmmo_classes.client.keybindings.Keybindings;
 import net.silvertide.pmmo_classes.data.PlayerClassProfile;
@@ -22,8 +21,8 @@ import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class ManageClassesScreen extends Screen {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(PMMOClasses.MOD_ID, "textures/gui/gui_manage_classes_screen.png");
-    private static final ResourceLocation CLASS_ICON_TEXTURE = ResourceLocation.fromNamespaceAndPath(PMMOClasses.MOD_ID, "textures/gui/class_icons.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(PMMOClasses.MOD_ID, "textures/gui/gui_manage_classes_screen.png");
+    private static final ResourceLocation CLASS_ICON_TEXTURE = new ResourceLocation(PMMOClasses.MOD_ID, "textures/gui/class_icons.png");
     private static final int SCREEN_WIDTH = 146;
     private static final int MAX_SCREEN_HEIGHT = 106;
 
@@ -61,15 +60,14 @@ public class ManageClassesScreen extends Screen {
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         try {
+            renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
             super.render(guiGraphics, mouseX, mouseY, partialTicks);
         } catch (Exception ignore) {
             onClose();
         }
     }
 
-    @Override
     public void renderBackground(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        renderTransparentBackground(guiGraphics);
         renderScreenBackground(guiGraphics);
         renderTitle(guiGraphics);
         renderCloseButton(guiGraphics, mouseX, mouseY);

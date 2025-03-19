@@ -3,17 +3,17 @@ package net.silvertide.pmmo_classes;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.silvertide.pmmo_classes.client.keybindings.Keybindings;
-import net.silvertide.pmmo_classes.config.ServerConfig;
+import net.silvertide.pmmo_classes.config.Config;
 import net.silvertide.pmmo_classes.registry.ItemRegistry;
 import net.silvertide.pmmo_classes.registry.TabRegistry;
 import net.silvertide.pmmo_skill_books.registry.ItemPropertyRegistry;
@@ -25,14 +25,14 @@ public class PMMOClasses
     public static final String MOD_ID = "pmmo_classes";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public PMMOClasses(IEventBus modEventBus, ModContainer modContainer)
-    {
+    public PMMOClasses() {
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ItemRegistry.register(modEventBus);
         TabRegistry.register(modEventBus);
-        modContainer.registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC, String.format("%s-server.toml", MOD_ID));
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Config.SERVER_CONFIG);
     }
 
-    @EventBusSubscriber(modid = MOD_ID, bus= EventBusSubscriber.Bus.MOD, value=Dist.CLIENT)
+    @Mod.EventBusSubscriber(modid = MOD_ID, bus= Mod.EventBusSubscriber.Bus.MOD, value= Dist.CLIENT)
     public static class ClientEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent clientSetupEvent) {
@@ -45,8 +45,7 @@ public class PMMOClasses
         }
     }
 
-
     public static ResourceLocation id(String location) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, location);
+        return new ResourceLocation(MOD_ID, location);
     }
 }

@@ -4,23 +4,22 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.silvertide.pmmo_classes.PMMOClasses;
 import net.silvertide.pmmo_classes.data.PrimaryClassSkill;
+import net.silvertide.pmmo_classes.network.PacketHandler;
 import net.silvertide.pmmo_classes.network.server_packets.SB_RemoveClassSkill;
 import net.silvertide.pmmo_classes.utils.GUIUtil;
 
 @OnlyIn(Dist.CLIENT)
 public class DeleteConfirmationScreen extends Screen {
     private static final float TEXT_SCALE = 0.85F;
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(PMMOClasses.MOD_ID, "textures/gui/gui_delete_class_confirmation.png");
-//    private static final ResourceLocation CLASS_ICON_TEXTURE = ResourceLocation.fromNamespaceAndPath(PMMOClasses.MOD_ID, "textures/gui/class_icons.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(PMMOClasses.MOD_ID, "textures/gui/gui_delete_class_confirmation.png");
     private static final int SCREEN_WIDTH = 146;
     private static final int SCREEN_HEIGHT = 64;
 
-    // BUTTON CONSTANTS
+    // Button Constants
     private static final int BUTTON_Y = 46;
     private static final int BUTTON_WIDTH = 50;
     private static final int BUTTON_HEIGHT = 12;
@@ -41,15 +40,14 @@ public class DeleteConfirmationScreen extends Screen {
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         try {
+            renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
             super.render(guiGraphics, mouseX, mouseY, partialTicks);
         } catch (Exception ignore) {
             onClose();
         }
     }
 
-    @Override
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        renderTransparentBackground(guiGraphics);
         int x = getScreenStartX();
         int y = getScreenStartY();
 
@@ -159,7 +157,7 @@ public class DeleteConfirmationScreen extends Screen {
             this.onClose();
             return true;
         } else if(confirmButtonDown && isHoveringConfirmButton(mouseX, mouseY)){
-            PacketDistributor.sendToServer(new SB_RemoveClassSkill(this.classSkillToDelete.getSkillName()));
+            PacketHandler.sendToServer(new SB_RemoveClassSkill(this.classSkillToDelete.getSkillName()));
             this.onClose();
             return true;
         }
