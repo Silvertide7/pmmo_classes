@@ -14,8 +14,8 @@ import net.silvertide.pmmo_classes.utils.PMMOUtil;
 import java.util.*;
 
 public class PlayerClassProfile {
-    private Map<PrimaryClassSkill, Long> primaryClassMap;
-    private Map<SubClassSkill, Long> subClassMap;
+    private Map<PrimaryClassSkill, Integer> primaryClassMap;
+    private Map<SubClassSkill, Integer> subClassMap;
     private AscendedClassSkill ascendedClassSkill;
 
     public PlayerClassProfile(Player player) {
@@ -35,8 +35,8 @@ public class PlayerClassProfile {
 
             // Loop through all player skills and see if they are a primary class, sub class, or ascended class and store that data.
             xpMap.forEach((skillKey, experience) -> {
-                        ClassUtil.getPrimaryClass(skillKey).ifPresent(primaryClassSkill -> primaryClassMap.put(primaryClassSkill, experience));
-                        ClassUtil.getSubClass(skillKey).ifPresent(subClassSkill -> subClassMap.put(subClassSkill, experience));
+                        ClassUtil.getPrimaryClass(skillKey).ifPresent(primaryClassSkill -> primaryClassMap.put(primaryClassSkill, APIUtils.getLevel(skillKey, player)));
+                        ClassUtil.getSubClass(skillKey).ifPresent(subClassSkill -> subClassMap.put(subClassSkill, APIUtils.getLevel(skillKey, player)));
 
                         if(ascendedClassSkill == null) {
                             ClassUtil.getAscendedClass(skillKey).ifPresent(ascendedClass -> this.ascendedClassSkill = ascendedClass);
@@ -58,10 +58,9 @@ public class PlayerClassProfile {
         ).findFirst().map(Map.Entry::getKey);
     }
 
-    public Optional<Map.Entry<PrimaryClassSkill, Long>> findMatchingPrimaryClass(SubClassSkill subClassSkill) {
+    public Optional<Map.Entry<PrimaryClassSkill, Integer>> findMatchingPrimaryClass(SubClassSkill subClassSkill) {
         return this.primaryClassMap.entrySet().stream().filter(entry ->
-                entry.getValue() >= 1 &&
-                        subClassSkill.getParentClass() == entry.getKey()
+                entry.getValue() >= 1 && subClassSkill.getParentClass() == entry.getKey()
         ).findFirst();
     }
 
@@ -86,28 +85,28 @@ public class PlayerClassProfile {
     }
 
     // GETTERS AND SETTERS
-    public Map<PrimaryClassSkill, Long> getPrimaryClassMap() {
-        return primaryClassMap;
+    public Map<PrimaryClassSkill, Integer> getPrimaryClassMap() {
+        return this.primaryClassMap;
     }
 
-    public Map<SubClassSkill, Long> getSubClassMap() {
-        return subClassMap;
+    public Map<SubClassSkill, Integer> getSubClassMap() {
+        return this.subClassMap;
     }
 
     public AscendedClassSkill getAscendedClassSkill() {
-        return ascendedClassSkill;
+        return this.ascendedClassSkill;
     }
 
     // Check if the player has more classes than is allowed. If so remove the excess classes.
     public boolean checkAndUpdatePrimaryClasses(ServerPlayer serverPlayer) {
         if(this.getPrimaryClassMap().size() > Config.NUM_CLASSES_ALLOWED.get()) {
-            List<Map.Entry<PrimaryClassSkill, Long>> sortedEntries = this.getPrimaryClassMap().entrySet()
+            List<Map.Entry<PrimaryClassSkill, Integer>> sortedEntries = this.getPrimaryClassMap().entrySet()
                     .stream()
-                    .sorted(Comparator.comparingLong(entry -> entry.getValue())) // Sort by level
+                    .sorted(Comparator.comparingInt(entry -> entry.getValue())) // Sort by level
                     .toList();
 
             // Remove the lowest level entries (if necessary)
-            List<Map.Entry<PrimaryClassSkill, Long>> entriesToRemove = sortedEntries.subList(0, sortedEntries.size() - Config.NUM_CLASSES_ALLOWED.get());
+            List<Map.Entry<PrimaryClassSkill, Integer>> entriesToRemove = sortedEntries.subList(0, sortedEntries.size() - Config.NUM_CLASSES_ALLOWED.get());
             PMMOUtil.deleteSkills(serverPlayer, entriesToRemove.stream().map(entry -> entry.getKey().getSkillName()).toList());
             return !entriesToRemove.isEmpty();
         }
@@ -178,8 +177,6 @@ public class PlayerClassProfile {
         }
     }
 
-
-
     public AddClassSkillResult canAddClassSkill(String skill, Long level) {
         // If the skill is a primary class, validate it
         Optional<PrimaryClassSkill> primaryClassSkill = ClassUtil.getPrimaryClass(skill);
@@ -190,7 +187,7 @@ public class PlayerClassProfile {
         // If the skill is a subclass, validate it
         Optional<SubClassSkill> subClassSkill = ClassUtil.getSubClass(skill);
         if(subClassSkill.isPresent()) {
-           return validateSubClassSkill(subClassSkill.get(), level);
+           return validateSubClassSkill(subClassSkill.get());
         }
 
         // If the skill is an ascended class, validate it
@@ -206,9 +203,10 @@ public class PlayerClassProfile {
     private AddClassSkillResult validatePrimaryClassSkill(PrimaryClassSkill primaryClassSkill, Long level) {
         // If adding a primary class, make sure you don't already have the maximum number of primary classes and that
         // you meet the level requirement to take a second class. Also make sure the level is not
-        Optional<Map.Entry<PrimaryClassSkill, Long>> matchingEntry = this.primaryClassMap.entrySet()
+        Optional<Map.Entry<PrimaryClassSkill, Integer>> matchingEntry = this.primaryClassMap.entrySet()
                 .stream()
-                .filter(primaryClassSkillExperienceEntry -> primaryClassSkillExperienceEntry.getKey() == primaryClassSkill).findFirst();
+                .filter(primaryClassSkillExperienceEntry -> primaryClassSkillExperienceEntry.getKey() == primaryClassSkill)
+                .findFirst();
 
         // If the level you are trying to obtain is higher than the max allowed, deny it no matter what skill it is. If it passes this then it is a valid level.
         if(level > Config.MAX_LEVEL_ALLOWED.get()) {
@@ -234,7 +232,7 @@ public class PlayerClassProfile {
 
         // If there is exactly 1 class then we need to check if we have reached the level requirement to gain another class.
         if(this.primaryClassMap.size() == 1) {
-            Map.Entry<PrimaryClassSkill, Long> entry = this.primaryClassMap.entrySet().iterator().next();
+            Map.Entry<PrimaryClassSkill, Integer> entry = this.primaryClassMap.entrySet().iterator().next();
             if(entry.getKey() != primaryClassSkill && entry.getValue() < Config.SECOND_CLASS_LEVEL_REQ.get()) {
                 return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.below_level_req", Config.SECOND_CLASS_LEVEL_REQ.get(), entry.getKey().getTranslatedSkillName()));
             }
@@ -249,9 +247,9 @@ public class PlayerClassProfile {
     }
 
 
-    private AddClassSkillResult validateSubClassSkill(SubClassSkill subClassSkill, Long level) {
+    private AddClassSkillResult validateSubClassSkill(SubClassSkill subClassSkill) {
         // First lets see if we already have a subclass with this type. If so fail, you can't get it again.
-        Optional<Map.Entry<SubClassSkill, Long>> matchingEntry = this.subClassMap.entrySet()
+        Optional<Map.Entry<SubClassSkill, Integer>> matchingEntry = this.subClassMap.entrySet()
                 .stream()
                 .filter(subClassSkillEntry -> subClassSkillEntry.getKey() == subClassSkill).findFirst();
         if(matchingEntry.isPresent()) {
@@ -259,7 +257,7 @@ public class PlayerClassProfile {
         }
 
         // Check to make sure we have the primary class in order to take this subclass
-        Optional<Map.Entry<PrimaryClassSkill, Long>> parentPrimaryClassEntry = findMatchingPrimaryClass(subClassSkill);
+        Optional<Map.Entry<PrimaryClassSkill, Integer>> parentPrimaryClassEntry = findMatchingPrimaryClass(subClassSkill);
         if(parentPrimaryClassEntry.isEmpty()) {
             return new AddClassSkillResult(false, Component.translatable("pmmo_classes.use_class_grant.message.no_parent_class", subClassSkill.getParentClass().getTranslatedSkillName(), subClassSkill.getTranslatedSkillName()));
         }

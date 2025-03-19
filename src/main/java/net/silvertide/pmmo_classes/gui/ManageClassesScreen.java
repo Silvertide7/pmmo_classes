@@ -49,9 +49,9 @@ public class ManageClassesScreen extends Screen {
         this.classProfile = new PlayerClassProfile(Minecraft.getInstance().player);
         this.classCards = new ArrayList<>();
         int index = 0;
-        for (Map.Entry<PrimaryClassSkill, Experience> entry : this.classProfile.getPrimaryClassMap().entrySet()) {
+        for (Map.Entry<PrimaryClassSkill, Integer> entry : this.classProfile.getPrimaryClassMap().entrySet()) {
             SubClassSkill subClassSkill = this.classProfile.findMatchingSubClass(entry.getKey()).orElse(null);
-            ClassCard classSkillRenderer = new ClassCard(this, index, entry.getKey(),entry.getValue().getLevel().getLevel(), subClassSkill);
+            ClassCard classSkillRenderer = new ClassCard(this, index, entry.getKey(), entry.getValue(), subClassSkill);
             this.classCards.add(classSkillRenderer);
             index++;
         }
