@@ -71,10 +71,10 @@ public class TabRegistry {
                     .build());
 
     private static ItemStack getIcon() {
-        ItemStack skillGrant = new ItemStack(ItemRegistry.CLASS_GRANT.get());
-        SkillGrantData skillGrantData = new SkillGrantData("", List.of(), "level", 1L,  0, "insignia", "gold", "red");
-        SkillGrantUtil.putSkillGrantData(skillGrant, skillGrantData);
-        return skillGrant;
+        ItemStack classGrant = new ItemStack(ItemRegistry.CLASS_GRANT.get());
+        SkillGrantData skillGrantData = new SkillGrantData("", List.of("mining"), "level", 1L,  0, "insignia", "gold", "red");
+        SkillGrantUtil.putSkillGrantData(classGrant, skillGrantData);
+        return classGrant;
     }
 
     private static void addClassGrantItem(CreativeModeTab.Output output, String name, List<String> skills, String applicationType, Long value, int experienceCost, String rank, String color) {
